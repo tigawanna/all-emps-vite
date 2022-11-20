@@ -1,13 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css'
+import { RootLayout } from './pages/root/RootLayout';
+import { WelcomePage } from './pages/root/WelcomePage';
+import { PostsLayout } from './pages/posts/PostsLayout';
+import { PostDetails } from './pages/posts/PostDetails';
+import { NewPost } from './pages/posts/NewPost';
+import { Posts } from './pages/posts/Posts';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <RootLayout />,
+      // errorElement: <ErrorPage />,
+      children: [
+        { index: true, element: <WelcomePage /> },
+        {
+          path: '/post',
+          element: <PostsLayout />,
+          children: [
+            {
+              index: true,
+              element: <Posts/>,
+              // loader: deferredBlogPostsLoader,
+            },
+            {
+              path: ':id',
+              element: <PostDetails />,
+              // loader: blogPostLoader,
+            },
+          ],
+        },
+        {
+          path: '/post/new',
+          element: <NewPost/>,
+          // action: newPostAction,
+        },
+      ],
+    },
+    // {
+    //   path: '/newsletter',
+    //   action: newsletterAction,
+    // },
+  ]);
 
   return (
-    <div className="App capitalize bg-red-700">
-   app.tsx
+    <div className="w-full min-h-screen">
+      return <RouterProvider router={router} />;
     </div>
   )
 }
