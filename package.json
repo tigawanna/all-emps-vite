@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "vite --port 3000",
+    "build": "tsc && vite build ",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
+    "react-router-dom": "^6.4.3",
     "tailwind-scrollbar": "^2.0.1"
   },
   "devDependencies": {
