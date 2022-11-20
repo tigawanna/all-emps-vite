@@ -3,8 +3,31 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import ErrorBoundary from './shared/ErrorBoundary';
+
+
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} position={"top-left"} />
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </QueryClientProvider>
+  </ErrorBoundary>
+);
