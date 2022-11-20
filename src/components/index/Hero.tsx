@@ -8,10 +8,10 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({}) => {
 return (
 <div className='min-h-screen w-full 
-   flex flex-col  justify-start items-center
-   bg-gradient-to-br from-slate-400 to-slate-800 text-white 
+   flex flex-col   items-center justify-center
+   bg-gradient-to-br from-purple-900 to-red-900 text-white relative
  '>
-        <div className='flex justify-center items-center w-[95%]'>
+        <div className='h-fit flex justify-center items-center w-[95%] absolute top-0 '>
             <div className='flex justify-center items-center w-[20%] text-2xl font-bold'>
                 All Emps
             </div>
@@ -34,8 +34,10 @@ return (
                 </Link>
             </div>
 
-        </div>    
-        <div className='h-full flex flex-col md:flex-row justify-center items-center'>
+        </div> 
+        
+ 
+        <div className=' flex flex-col md:flex-row justify-center items-center'>
             <div className=' w-full md:selection:h-full flex justify-center items-center m-2 p-2'>
                 <div className='font-serif text-4xl w-[70%]'>
                     Join us in this new phase in your career
@@ -46,7 +48,7 @@ return (
                 <img className='w-full h-full' src={HeroImg} />
             </div>
         </div>
+        </div>
 
- </div>
 );
 }

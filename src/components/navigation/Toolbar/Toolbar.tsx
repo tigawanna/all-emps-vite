@@ -36,7 +36,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({user,}) => {
 
   return (
     <div className="w-[100%]   
-    dark:text-white h-14 p-2">
+    dark:text-white h-10 p-2">
       <IconContext.Provider
         value={{
           size: "25px",
@@ -52,8 +52,9 @@ export const Toolbar: React.FC<ToolbarProps> = ({user,}) => {
           />
         ) : null}
 
-        <div className="flex flex-grow flex-1 text-lg font-bold h-full w-full">
-          <div className="m-1 w-full p-1 flex justify-center items-center d">
+        <div className="flex flex-grow flex-1 text-lg font-bold h-full w-full
+        ">
+          <div className="m-1 w-full p-1 flex justify-center items-center ">
        
             <Link to="/" >
               <div className="w-fit p-1 mx-5 flex justify-center items-center dark:text-white  ">
@@ -85,7 +86,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({user,}) => {
              <TheIcon
               Icon={FaUserCircle}
               size={"30"}
-              color={"blue"}
+              color={""}
              />
              </Link>
             ) : (
