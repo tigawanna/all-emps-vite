@@ -16,7 +16,7 @@ return (
                 All Emps
             </div>
             <div className='flex justify-end items-center w-full'>
-                <Link to="/signup" >
+                <Link to="/auth/signup" >
                 <div className='px-2 py-1 m-2 md:text-lg w-20 
                  flex justify-center items-center rounded-full
                  border-2 md:border-2 hover:bg-slate-900
@@ -24,7 +24,7 @@ return (
                     Join
                 </div>
                 </Link>
-                    <Link to="/login" >
+                    <Link to="/auth" >
                 <div className='px-2 py-1 m-2 md:text-lg w-20 
             flex justify-center items-center rounded-full
             border-2 md:border-2 hover:bg-slate-900

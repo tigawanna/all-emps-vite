@@ -16,23 +16,23 @@ import { AiOutlineHome } from 'react-icons/ai'
 
 
 interface ToolbarProps {
-  user: any
+
 }
 
 
-export const Toolbar: React.FC<ToolbarProps> = ({user,}) => {
+export const Toolbar: React.FC<ToolbarProps> = ({}) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme()
   const nextTheme = theme.theme === 'dark' ? 'light' : 'dark'
   const mode = theme.theme === "dark" ? BsSunFill : BsFillMoonFill;
   const toggle = () => {theme.setTheme(nextTheme)}
   const queryClient = useQueryClient();
-
+  const user = ""
   const logout = () => {
     // client.authStore.clear();
     queryClient.invalidateQueries(["user"]);
   };
-  const image = user?.profile?.avatarUrl;
+  const image = "user?.profile?.avatarUrl";
 
   return (
     <div className="w-[100%]   

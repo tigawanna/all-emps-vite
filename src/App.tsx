@@ -1,18 +1,24 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css'
-import { RootLayout } from './pages/root/RootLayout';
+import { RootLayout, userLoader } from './pages/root/RootLayout';
 import { WelcomePage } from './pages/root/WelcomePage';
 import { PostsLayout } from './pages/posts/PostsLayout';
 import { PostDetails } from './pages/posts/PostDetails';
 import { NewPost } from './pages/posts/NewPost';
 import { Posts } from './pages/posts/Posts';
+import { QueryClient } from '@tanstack/react-query';
+import { AuthLayout } from './pages/auth/AuthLayout';
+import { Login } from './pb/auth/Login';
+import { Signup } from './pages/auth/Signup';
 
 function App() {
+  const queryClient = new QueryClient()
   const router = createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
+      loader:userLoader,
       // errorElement: <ErrorPage />,
       children: [
         { index: true, element: <WelcomePage /> },
@@ -28,6 +34,22 @@ function App() {
             {
               path: ':id',
               element: <PostDetails />,
+              // loader: blogPostLoader,
+            },
+          ],
+        },
+        {
+          path: '/auth',
+          element: <AuthLayout />,
+          children: [
+            {
+              index: true,
+              element: <Login />,
+              // loader: deferredBlogPostsLoader,
+            },
+            {
+              path: 'signup',
+              element: <Signup/>,
               // loader: blogPostLoader,
             },
           ],
