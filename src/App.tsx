@@ -1,30 +1,58 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css'
-import { RootLayout, userLoader } from './pages/root/RootLayout';
+import { RootLayout} from './pages/root/RootLayout';
 import { WelcomePage } from './pages/root/WelcomePage';
 import { PostsLayout } from './pages/posts/PostsLayout';
 import { PostDetails } from './pages/posts/PostDetails';
 import { NewPost } from './pages/posts/NewPost';
 import { Posts } from './pages/posts/Posts';
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, useQuery } from '@tanstack/react-query';
 import { AuthLayout } from './pages/auth/AuthLayout';
 import { Login } from './pb/auth/Login';
 import { Signup } from './pages/auth/Signup';
+import { getUser } from './pb/config';
+import { Profile } from './pages/emp/Profile';
+import { Test } from './components/test/Test';
+import { EmpsLayout } from './pages/emp/EmpsLayout';
+import { TestLayout } from './components/test/TestLayout';
 
 function App() {
-  const queryClient = new QueryClient()
+const userQuery = useQuery(['user'], getUser)
+const testmode= false
+
+
+if (userQuery.isLoading ) {
+    return (
+      <div className="w-full h-screen flex-center scroll-bar">
+        <div className="w-[670%] h-[70%] flex-center ">loading....</div>
+      </div>
+    );
+  }
+  if (userQuery.isError) {
+    return (
+      <div className="w-full h-screen flex-center scroll-bar">
+        <div className="w-[670%] h-[70%] flex-center ">
+          {/* @ts-expect-error */}
+         {userQuery?.error?.response?.message}
+        </div>
+        </div>
+    ); 
+  }
+  const user = userQuery.data;
+
+
   const router = createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
-      loader:userLoader,
+      // loader:userLoader(queryClient),
       // errorElement: <ErrorPage />,
       children: [
-        { index: true, element: <WelcomePage /> },
+        { index: true, element: <WelcomePage user={user}/> },
         {
           path: '/post',
-          element: <PostsLayout />,
+          element: <PostsLayout user={user} />,
           children: [
             {
               index: true,
@@ -36,11 +64,16 @@ function App() {
               element: <PostDetails />,
               // loader: blogPostLoader,
             },
+            {
+              path: '/post/new',
+              element: <NewPost />,
+              // action: newPostAction,
+            },
           ],
         },
         {
           path: '/auth',
-          element: <AuthLayout />,
+          element: <AuthLayout user={user}/>,
           children: [
             {
               index: true,
@@ -48,17 +81,42 @@ function App() {
               // loader: deferredBlogPostsLoader,
             },
             {
-              path: 'signup',
+              path: '/auth/signup',
               element: <Signup/>,
               // loader: blogPostLoader,
             },
           ],
         },
         {
-          path: '/post/new',
-          element: <NewPost/>,
-          // action: newPostAction,
+          path: '/profile',
+          element: <EmpsLayout user={user} />,
+          children: [
+            {
+              index: true,
+              element: <Profile user={user}/>,
+              // loader: deferredBlogPostsLoader,
+            },
+            // {
+            //   path: '/auth/signup',
+            //   element: <Signup />,
+            //   // loader: blogPostLoader,
+            // },
+          ],
         },
+
+        {
+          path: '/test',
+          element: <TestLayout user={user} />,
+          children: [
+            {
+              index: true,
+              element: <Test user={user}/>,
+              // loader: deferredBlogPostsLoader,
+            },
+
+          ],
+        },
+
       ],
     },
     // {
@@ -68,7 +126,7 @@ function App() {
   ]);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-screen">
       <RouterProvider router={router} />;
     </div>
   )

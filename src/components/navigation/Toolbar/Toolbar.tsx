@@ -82,7 +82,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
            className="  rounded-md  flex justify-center 
             items-center dark:text-white w-12 min-h-12 h-full ml-3 mr-1 ">
             {!user ? (
-              <Link to="/login" >
+              <Link to="/auth" >
              <TheIcon
               Icon={FaUserCircle}
               size={"30"}
