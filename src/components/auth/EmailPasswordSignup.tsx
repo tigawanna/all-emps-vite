@@ -58,7 +58,8 @@ export const EmailPasswordSignup: React.FC<EmailPasswordSignupProps> = ({}) => {
         },
         onError:(err)=>{
             // console.log("mutation error ==== ", concatErrors(err))
-            setError({ name: "main", message: concatErrors(err) })
+            // setError({ name: "main", message: concatErrors(err) })
+            throw err
         }
     }
     )

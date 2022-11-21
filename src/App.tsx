@@ -7,7 +7,7 @@ import { PostsLayout } from './pages/posts/PostsLayout';
 import { PostDetails } from './pages/posts/PostDetails';
 import { NewPost } from './pages/posts/NewPost';
 import { Posts } from './pages/posts/Posts';
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AuthLayout } from './pages/auth/AuthLayout';
 import { Signup } from './pages/auth/Signup';
 import { getUser } from './pb/config';

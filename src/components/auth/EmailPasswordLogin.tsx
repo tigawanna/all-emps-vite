@@ -22,8 +22,9 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
     const form_input: FormOptions[] = [
         { field_name: "email", field_type: "text", default_value: "",editing },
         { field_name: "password", field_type: "password", default_value: "",editing },
-   ]  
-    const addUserMutation = useMutation((vars: { coll_name: string, payload: FormData }) => {
+   ] 
+   console.log("error in login ==== > ",error) 
+    const addUserMutation = useMutation(async(vars: { coll_name: string, payload: FormData }) => {
         // console.log("auth mutation vars == ",vars.payload)
         // return client.users.authViaEmail(
         //     vars.payload.get('email') as string,
@@ -33,26 +34,42 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
         //         setAuthing(false)
         //         navigate('/')
         //     })
-        return client.collection('emps').authWithPassword(
-            vars.payload.get('email') as string,
-             vars.payload.get('password') as string)
-                 .then((res) => {
-                queryClient.setQueryData(['user'], () => res.record);
-                setAuthing(false)
-                navigate('/')
-            })
-             .catch((err)=>{
+        try{
+            const result = await client.collection('emps').authWithPassword(
+                vars.payload.get('email') as string,
+                vars.payload.get('password') as string
+            )
+            queryClient.setQueryData(['user'], () => result.record);
             setAuthing(false)
-            // console.log("error in auth mutation ",err)
+        }
+        catch(err:any){
+            console.log("error in login mutation catch block", err.message)
+            // setError({ name: "main", message: err?.messge })
             throw err
-        })
+       }
+
+
+        // return client.collection('emps').authWithPassword(
+        //     vars.payload.get('email') as string,
+        //      vars.payload.get('password') as string)
+        //          .then((res) => {
+        //         queryClient.setQueryData(['user'], () => res.record);
+        //         setAuthing(false)
+        //         navigate('/')
+        //     })
+        //      .catch((err)=>{
+        //     setAuthing(false)
+        //     console.log("error in auth mutation ",err.message)
+        //     setError({ name: "main", message: err.messge})
+        
+        // })
     },
     {
         onSettled: () => {
             queryClient.invalidateQueries(["user"]);
         },
-        onError: (err) => {
-          setError({ name: "main", message: concatErrors(err) })
+        onError: (err:any) => {
+          setError({ name: "main", message:err?.message})
         }
     }
     )

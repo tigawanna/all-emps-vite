@@ -23,8 +23,10 @@ export const Login: React.FC<LoginProps> = ({user}) => {
 
 
 return (
-  <div className="w-full min-h-full md:h-full flex flex-col md:flex-row items-center justify-center">
-    <div className="w-[80%] h-full md:w-[60%] md:h-[90%] m-2 flex flex-col 
+  <div className="w-full min-h-full md:h-full flex flex-col md:flex-row items-center justify-center
+
+  ">
+    <div className="w-[80%] h-fit md:w-[60%]  m-2 p-2 flex flex-col 
     items-center justify-center ">
     <EmailPasswordLogin/>
     </div>

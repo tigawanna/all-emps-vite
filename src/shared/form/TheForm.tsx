@@ -120,7 +120,7 @@ class TheForm extends React.Component<Props, State> {
 
   render() {
 
-  // console.log("this.props.error === ",this.props.error)
+  console.log("this.props.error === ",this.props.error)
   //   console.log("this.state.error === ", this.state.error)
     return (
       <div className="w-full h-full flex flex-col items-center 
@@ -210,8 +210,8 @@ class TheForm extends React.Component<Props, State> {
           }
           {
             this.state.error.name === "main" && this.state.error.message !== "" ?
-              <div className="text-red-900 border border-red-500 p-2 m-1 w-[80%]
-              break-words bg-red-100 text-[14px] rounded-sm
+              <div className="text-red-300 border border-red-500 p-2 m-1 w-[80%]
+              break-words  text-[14px] rounded-sm
             ">{this.state.error.message}</div> : null
           }
      
