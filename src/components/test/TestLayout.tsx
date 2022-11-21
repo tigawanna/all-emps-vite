@@ -4,7 +4,7 @@ import { Record } from 'pocketbase';
 import { Admin } from 'pocketbase';
 
 interface TestLayoutProps {
-    user: Record | Admin | null
+    user: Record | Admin | null | undefined
 }
 
 export const TestLayout: React.FC<TestLayoutProps> = ({user}) => {

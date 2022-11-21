@@ -39,7 +39,7 @@ if (userQuery.isLoading ) {
         </div>
     ); 
   }
-  const user = userQuery.data;
+  const user = userQuery?.data;
 
 
   const router = createBrowserRouter([

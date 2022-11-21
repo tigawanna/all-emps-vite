@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, useLoaderData, Navigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Toolbar } from '../../components/navigation/Toolbar/Toolbar';
 
 
@@ -12,9 +12,9 @@ export const RootLayout: React.FC<RootLayoutProps> = ({}) => {
   // console.log("loader data ====== > ",load_data)
   return (
     <div className='h-full w-full '>
-      <div className='h-fit w-full bg-slate-700 dark:bg-slate-800  bg-opacity-50 
-      
-      sticky top-0 z-40'>
+      <div className='h-16 w-full  bg-slate-700 dark:bg-slate-800  
+      bg-opacity-50 dark:bg-opacity-50
+       sticky top-0 z-40'>
       <Toolbar/>
       </div>
       <main className=' h-full w-full'>

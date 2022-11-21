@@ -36,9 +36,11 @@ const handleChange = (e:any) => {
 };
 
 const finishSearch=(item:Country)=>{
-  setKeyword({word:item.name.common})
-  setInput({item_key:"country",item:item.name.common})
-  setInput({ item_key: "phone", item: item.idd.root + item.idd.suffixes[0] })
+  if(form_options.editing){
+    setKeyword({ word: item.name.common })
+    setInput({ item_key: "country", item: item.name.common })
+    setInput({ item_key: "phone", item: item.idd.root + item.idd.suffixes[0] })
+  }
 }
 
 // console.log(" form_options ",form_options)

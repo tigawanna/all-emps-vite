@@ -5,7 +5,7 @@ import { Admin } from 'pocketbase';
 import { Record } from 'pocketbase';
 
 interface WelcomePageProps {
-user:Record|Admin|null
+user:Record|Admin|null|undefined
 }
 
 export const WelcomePage: React.FC<WelcomePageProps> = ({user}) => {

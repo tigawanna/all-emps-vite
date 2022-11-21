@@ -5,7 +5,7 @@ import { Record } from 'pocketbase';
 
 
 interface EmpsLayoutProps {
-    user: Record | Admin | null
+    user: Record | Admin | null |undefined
 }
 
 export const EmpsLayout: React.FC<EmpsLayoutProps> = ({user}) => {

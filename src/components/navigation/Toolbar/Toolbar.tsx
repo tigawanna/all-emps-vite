@@ -2,15 +2,16 @@ import React from "react";
 import { IconContext } from "react-icons/lib";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-// import { User } from "pocketbase";
-// import { client } from "../../../pocketbase/config";
 import { useTheme } from './../../../shared/hooks/themeHook';
 import { BsSunFill,BsFillMoonFill} from "react-icons/bs";
 import { TheIcon } from "../../../shared/TheIcon";
 import { Consent } from "../../../shared/Consent";
 import { AiOutlineHome } from 'react-icons/ai'
+import { client, getUser } from './../../../pb/config';
+import { Admin } from 'pocketbase';
+import { Record } from 'pocketbase';
 
 
 
@@ -21,22 +22,26 @@ interface ToolbarProps {
 
 
 export const Toolbar: React.FC<ToolbarProps> = ({}) => {
+  const userQuery = useQuery(['user'], getUser)
+
   const [open, setOpen] = useState(false);
   const theme = useTheme()
   const nextTheme = theme.theme === 'dark' ? 'light' : 'dark'
   const mode = theme.theme === "dark" ? BsSunFill : BsFillMoonFill;
   const toggle = () => {theme.setTheme(nextTheme)}
   const queryClient = useQueryClient();
-  const user = ""
+  
+  const user = userQuery?.data
+
   const logout = () => {
-    // client.authStore.clear();
+     client.authStore.clear();
     queryClient.invalidateQueries(["user"]);
   };
   const image = "user?.profile?.avatarUrl";
 
+
   return (
-    <div className="w-[100%]   
-    dark:text-white h-10 p-2">
+    <div className="w-[100%] dark:text-white  p-2 flex justify-center items-center">
       <IconContext.Provider
         value={{
           size: "25px",
@@ -52,9 +57,8 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
           />
         ) : null}
 
-        <div className="flex flex-grow flex-1 text-lg font-bold h-full w-full
-        ">
-          <div className="m-1 w-full p-1 flex justify-center items-center ">
+        <div className="flex flex-grow flex-1 justify-center items-center text-lg font-bold h-full w-full ">
+          <div className="m-1 w-full h-full p-1 flex justify-center items-center ">
        
             <Link to="/" >
               <div className="w-fit p-1 mx-5 flex justify-center items-center dark:text-white  ">
@@ -79,8 +83,8 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
             />
           </div>
           <div
-           className="  rounded-md  flex justify-center 
-            items-center dark:text-white w-12 min-h-12 h-full ml-3 mr-1 ">
+            className="  rounded-md  flex justify-center items-center
+          dark:text-white w-16 min-h-16 h-full  ">
             {!user ? (
               <Link to="/auth" >
              <TheIcon
@@ -91,9 +95,9 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
              </Link>
             ) : (
               <img
-               src={image}
-                alt={""}
-                  className="rounded-[50%] hover:rounded-sm border-2 h-full"
+               src={makeUrl(user)}
+              alt={""}
+                  className="rounded-[50%] hover:rounded-sm border-2 max-h-[50px] "
                 onClick={() => setOpen(true)}
               />
             )}
@@ -103,3 +107,13 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
     </div>
   );
 };
+
+
+const makeUrl = (record: Record | Admin | null |undefined) => {
+
+  if (record?.avatar) {
+    return `https://emps.tigawanna.tech/api/files/emps/${record.id}/${record?.avatar}`
+  }
+  return "https://picsum.photos/id/1/500/500"
+
+}

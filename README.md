@@ -52,4 +52,3 @@ final user profile record should look like
 }
 ```
 
-`⚠️ Still a work in progress submit button is disabled`

@@ -4,7 +4,7 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 interface PostsLayoutProps {
-   user: Record| Admin | null
+   user: Record| Admin | null | undefined
 }
 
 export const PostsLayout: React.FC<PostsLayoutProps> = ({user}) => {

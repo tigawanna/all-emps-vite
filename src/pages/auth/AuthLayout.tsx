@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 interface AuthLayoutProps {
-    user: Record | Admin | null
+    user: Record | Admin | null |undefined
 }
 
 export const AuthLayout: React.FC<AuthLayoutProps> = ({user}) => {

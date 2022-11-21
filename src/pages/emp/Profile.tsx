@@ -47,7 +47,7 @@ export const Profile: React.FC<ProfileProps> = ({user }) => {
 
 const emp = user as EmpsDetails | undefined  
 // console.log("prfile user == ",user)
-const [editing, setEditing] = React.useState(true)
+const [editing, setEditing] = React.useState(user?.name===""|| user?.avatar==="")
 const [error, setError] = React.useState({ name: "", message: "" })
 const queryClient = useQueryClient();
 const updateProfileMutation = useMutation(async(vars: { coll_name: string, payload: FormData }) => {
@@ -91,7 +91,7 @@ return (
       <TheIcon  Icon={FaRegEdit} size='20' iconAction={()=>setEditing(prev=>!prev)}/>
   </div>
 
-  <div className='w-[85%] md:w-[50%] h-full flex-center-col '> 
+  <div className='w-[85%] md:w-[60%] h-full flex-center-col '> 
    <div className='w-full '>
     {/* <ProfileNameAvatar
     input={input}
@@ -163,6 +163,8 @@ const makeUrl = (record: EmpsDetails | undefined) => {
 const makeinputs = (emps_data: EmpsDetails | undefined ,editing:boolean,user?:Record| Admin|null)=>{
   const form_input: FormOptions[] = [
     { field_name: "avatar", field_type: "file", default_value: makeUrl(emps_data), required: true, editing },
+    { field_name: "username", field_type: "text", default_value: emps_data?.username, required: true, editing },
+    { field_name: "email", field_type: "text", default_value: emps_data?.email, required: true, editing:false },
     { field_name: "name", field_type: "text", default_value: emps_data?.name, required: true, editing },
     { field_name: "bio", field_type: "textarea", default_value: emps_data?.bio, required: true, editing },
     { field_name: "country", field_type: "countryselect", default_value: emps_data?.country??"", required: true, 
