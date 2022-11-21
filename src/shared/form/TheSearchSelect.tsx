@@ -11,12 +11,7 @@ form_options: FormOptions
 }
 
 export const TheSearchSelect: React.FC<SearchSelectProps> = ({setInput,form_options}) => {
-  // head.prop = collection.name
-  // const args = head.prop.split('.')
-  const [keyword, setKeyword] = React.useState({ word:"" })
-
-
-
+const [keyword, setKeyword] = React.useState({ word:"" })
 
 const handleChange = (e:any) => {
   const { value } = e.target;
@@ -29,11 +24,8 @@ const finishSearch=(item:any)=>{
 }
 
 const filterArray =({list,field_key}:FilterFnProps)=>{
-  // console.log("keyword == ",keyword)
-  // console.log("list  ==== ",list)
- return list.filter((item:any)=>{
-  //  console.log("item ==== ", item[field_key])
-  return item[field_key].toLowerCase().includes(keyword.word.toLowerCase())}
+  return list.filter((item:any)=>{
+    return item[field_key].toLowerCase().includes(keyword.word.toLowerCase())}
  )
 }
   const data = filterArray({ field_key: form_options?.filter_key as string, 
@@ -42,7 +34,7 @@ const filterArray =({list,field_key}:FilterFnProps)=>{
 return (
  <div className='w-full h-full cursor-pointer flex flex-col items-center justify-center'>
     <label className="font-bold text-white text-md  w-[90%] flex items-start">
-      {form_options.required ? <div className='text-red-300 mr-1'>*</div>:null}
+      {form_options.required && form_options.editing ? <div className='text-red-300 mr-1'>*</div>:null}
       {form_options?.filter_key as string}
     </label>
     <input

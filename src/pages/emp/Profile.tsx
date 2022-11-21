@@ -24,44 +24,44 @@ email?:string
 }
 
 export interface EmpsDetails {
-  "@collectionId": string
-  "@collectionName": string
-  id: string
-  created: string
-  updated: string
+  avatar: string
   bio: string
+  collectionId: string
+  collectionName: string
   country: string
-  phone: string
+  created: string
   cv: string
-  user: string
-  avatar:string;
-  name:string
+  email: string
+  emailVisibility: boolean
+  id: string
+  name: string
+  phone: string
+  updated: string
+  username: string
+  verified: boolean
+  expand:{}
 }
 
 
 export const Profile: React.FC<ProfileProps> = ({user }) => {
-console.log("prfile user == ",user)
+
+const emp = user as EmpsDetails | undefined  
+// console.log("prfile user == ",user)
 const [editing, setEditing] = React.useState(true)
-const [error, setError] = React.useState({ name: "main", message: "" })
-// const [input, setInput] = React.useState<ProfileInput>({ avatar:null, name: "",email:user?.email })
-// const filter = `user = "${user?.id}"  `
-// const emps_query = useCollection({ key: ['empsdetails'], filter, expand: "user",})
+const [error, setError] = React.useState({ name: "", message: "" })
 const queryClient = useQueryClient();
-
-
-
-// const emps_data_arr = emps_query.data as EmpsDetails[] |undefined
-// const emps_data=emps_data_arr&& emps_data_arr[0]
-
-
 const updateProfileMutation = useMutation(async(vars: { coll_name: string, payload: FormData }) => {
-   try{
+
+try{
 //  const record = await client.collection('emps').update('empsdetails', emps_data.id, vars.payload);
   if(user?.id){
-    const record = await client.collection('emps').update(user?.id, vars.payload);
-  console.log("emps updated details === ", record)
+  const record = await client.collection('emps').update(user?.id, vars.payload);
+  queryClient.setQueryData(['user'],record)
+  setEditing(false)
+  // console.log("emps updated details === ", record)
   }else{
-    throw Error("user id required")
+    console.log("no user id preset")
+  throw Error("user id required")
   }
   }
   catch(e){
@@ -71,7 +71,7 @@ const updateProfileMutation = useMutation(async(vars: { coll_name: string, paylo
   },
     {
       onSettled: () => {
-        queryClient.invalidateQueries(["empsdetails"]);
+        queryClient.invalidateQueries(["user"]);
       },
       onError: (err) => {
         // console.log("mutation error ==== ", concatErrors(err))
@@ -80,22 +80,10 @@ const updateProfileMutation = useMutation(async(vars: { coll_name: string, paylo
     }
 )
 const handleSubmit = async (data: FormData) => {
-    await updateProfileMutation.mutate({ coll_name: 'user', payload: data })
+    await updateProfileMutation.mutate({ coll_name: 'emps', payload: data })
 };
 
-  // if (emps_query.error) {
-  //   return (
-  //     <div className="w-full h-full flex  justify-center items-centerflex-wrap text-lg  text-red-300">
-  //       {/*@ts-expect-error */}
-  //       {emps_query.error?.message}
-  //     </div>
-  //   );
-  // }
 
-  // if (emps_query.isLoading) {
-  //   return <div className="w-full h-full flex-center"> loading ..... </div>;
-  // }
-  // console.log("EMPS  DATA   ++++++ =====>>>>> ", emps_data)
 return (
   <div className='w-full min-h-screen flex flex-col items-center '>
   <div className='text-3xl font-bold m-2 flex items-center justify-center'> Profile 
@@ -111,7 +99,7 @@ return (
     /> */}
     <TheForm
       form_title=''
-      fields={makeinputs(user,editing,user)}
+      fields={makeinputs(emp,editing,user)}
       validate={validate}
       submitFn={handleSubmit}
       is_submitting={updateProfileMutation.isLoading}
@@ -140,7 +128,7 @@ interface Validate {
 
 
 const validate = ({ input, setError }: Validate) => {
-  // console.log("input === ", input)
+  console.log("input === ", input)
   // const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   if (input.bio === "") {
     setError({ name: "bio", message: "bio field required" })
@@ -158,24 +146,28 @@ const validate = ({ input, setError }: Validate) => {
   }
 
   setError({ name: "", message: "" })
-  return false
+  return true
 }
 
-const makeUrl = (record: Record | Admin | null) => {
-  //@ts-expect-error
-  return `https://emps.tigawanna.tech/api/files/emps/${record.id}/${record?.avatar}`
+const makeUrl = (record: EmpsDetails | undefined) => {
+
+  if(record?.avatar){
+    return `https://emps.tigawanna.tech/api/files/emps/${record.id}/${record?.avatar}`
+  }
+  return "https://picsum.photos/id/1/200/300"
+
 }
 
 
 
-const makeinputs = (emps_data:  null | Record | Admin,editing:boolean,user?:Record| Admin|null)=>{
+const makeinputs = (emps_data: EmpsDetails | undefined ,editing:boolean,user?:Record| Admin|null)=>{
   const form_input: FormOptions[] = [
     { field_name: "avatar", field_type: "file", default_value: makeUrl(emps_data), required: true, editing },
     { field_name: "name", field_type: "text", default_value: emps_data?.name, required: true, editing },
     { field_name: "bio", field_type: "textarea", default_value: emps_data?.bio, required: true, editing },
-    { field_name: "country", field_type: "countryselect", default_value: emps_data?.country, required: true, 
+    { field_name: "country", field_type: "countryselect", default_value: emps_data?.country??"", required: true, 
     editing },
-    { field_name: "phone", field_type: "text", default_value: emps_data?.phone, required: true, editing },
+    { field_name: "phone", field_type: "text", default_value: emps_data?.phone??"", required: true, editing },
     {
      field_name: "cv", field_type: "text", default_value: emps_data?.cv, required: true, editing,
       placeholder: "enter google doc link"

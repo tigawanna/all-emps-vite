@@ -40,7 +40,7 @@ export const TheFileInput: React.FC<TheFileInputProps> = ({
     <div 
      className="flex flex-col items-center justify-center w-full ">
       <label className="font-bold  text-md capitalize  w-[90%] flex items-start">
-        {item.required ? <div className='text-red-300 mr-1'>*</div> : null}
+        {item.required && item.editing ? <div className='text-red-300 mr-1'>*</div> : null}
         {item.field_name}
       </label>
       <div

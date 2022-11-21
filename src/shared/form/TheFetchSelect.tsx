@@ -44,25 +44,18 @@ if (query?.error) {
       <div className="w-full h-full flex justify-center items-center">
         <div className="w-[80%] h-full flex justify-center items-center  text-red-600 text-sm">
           {/* @ts-expect-error */}
-          ERROR LOADING  {query.error.message}
+          {query.error.message}
         </div>
    
       </div>);
   }
 
-  // if (query?.isLoading) {
-  //   return <div className="w-full h-full flex-center"> loading ..... </div>;
-  // }
-
-  // if (query?.data?.length < 1) {
-  //   return <div className="w-full h-full flex-center"> No results found </div>;
-  // }
 const data = query?.data
-console.log("data in fetch sellect === ",data)
+// console.log("data in fetch sellect === ",data)
 return (
  <div className='w-full min-h-[150px] h-full cursor-pointer flex flex-col items-center justify-start '>
     <label className="font-bold text-white text-md  w-[90%] flex items-start">
-      {form_options.required ? <div className='text-red-300 mr-1'>*</div>:null}
+      {form_options.required && form_options.editing ? <div className='text-red-300 mr-1'>*</div>:null}
       {form_options.collection}
     </label>
     <input

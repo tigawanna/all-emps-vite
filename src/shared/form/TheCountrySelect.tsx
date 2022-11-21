@@ -11,12 +11,8 @@ form_options: FormOptions
 
 export const TheCountrySelect: React.FC<CountrySelectProps> = ({setInput,form_options}) => {
 
-  // head = collection.name
-  // const args = head.prop.split('.')
-  const [keyword, setKeyword] = React.useState({ word:form_options.default_value as string ??"" })
-//  console.log("args ,keyword.word",args,keyword.word)
-
-  const getCountries = async () => {
+  const [keyword, setKeyword] = React.useState({ word:form_options.default_value as string??"" })
+ const getCountries = async () => {
     return fetch('https://restcountries.com/v3.1/all').then((response) => response.json())
   }
   const query =useQuery(['countries',keyword.word],
@@ -36,6 +32,7 @@ export const TheCountrySelect: React.FC<CountrySelectProps> = ({setInput,form_op
 const handleChange = (e:any) => {
   const { value } = e.target;
   setKeyword({ ...keyword, [e.target.id]: value});
+
 };
 
 const finishSearch=(item:Country)=>{
@@ -57,19 +54,12 @@ if (query?.error) {
       </div>);
   }
 
-  // if (query?.isLoading) {
-  //   return <div className="w-full h-full flex-center"> loading ..... </div>;
-  // }
-
-  // if (query?.data?.length < 1) {
-  //   return <div className="w-full h-full flex-center"> No results found </div>;
-  // }
 const data = query?.data
 
 return (
  <div className='w-full min-h-[150px] h-full cursor-pointer flex flex-col items-center justify-start '>
     <label className="font-bold  text-md capitalize  w-[90%] flex items-start">
-      {form_options.required ? <div className='text-red-300 mr-1'>*</div>:null}
+      {form_options.required && form_options.editing ? <div className='text-red-300 mr-1'>*</div>:null}
       {form_options.field_name}
     </label>
     {form_options.editing?
@@ -90,8 +80,7 @@ return (
   }
     <div className='w-[90%]  rounded-lg flex flex-wrap items-center justify-start '>
       {data?.slice(0, 10).map((item, idx:number) => {
-        // console.log(form_options?.filter_key,form_options?.filter_key_2)
-       return (
+         return (
             <div key={item.name.official + idx}
               onClick={() => finishSearch(item)}
               className="m-1 py-1 px-2 border-2 text-center min-w-fit rounded-lg hover:bg-slate-600
