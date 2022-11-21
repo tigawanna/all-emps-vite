@@ -51,5 +51,5 @@ final user profile record should look like
 
 }
 ```
-
-hosted on vercel
+[hosted on vercel](https://allemps-vite.vercel.app/)
+[pocketbase test api](http://emps.tigawanna.tech/)
