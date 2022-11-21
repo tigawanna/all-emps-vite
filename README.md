@@ -52,3 +52,4 @@ final user profile record should look like
 }
 ```
 
+hosted on vercel
