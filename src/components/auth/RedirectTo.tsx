@@ -1,9 +1,9 @@
-import { Result , Admin } from 'pocketbase'
+import { Record , Admin } from 'pocketbase'
 import React, { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom';
 
 interface RedirectToProps {
-    user?: Result | Admin | null
+    user?: Record | Admin | null
     testmode?: boolean
     children: ReactNode
     to:string

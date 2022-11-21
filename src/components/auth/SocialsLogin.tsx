@@ -1,18 +1,19 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import { Admin, User } from "pocketbase";
+import { Admin, Record } from "pocketbase";
 import { BsGoogle,BsFacebook,BsReddit,BsTwitter,BsDiscord,BsGithub} from 'react-icons/bs'
 import { TheIcon } from '../../shared/TheIcon';
 import { useQuery } from '@tanstack/react-query';
 import { redirect_url } from "../../utils/env";
 import { Loading } from "../../shared/Loading";
-import { client } from './../../pocketbase/config';
+import { client } from './../../pb/config';
+
 
 
 
 
 interface SocialsLoginProps {
-user?: User | Admin | null
+user?: Record | Admin | null | undefined
 }
 interface ProvType{
 
@@ -34,7 +35,7 @@ export const SocialsLogin: React.FC<SocialsLoginProps> = ({user}) => {
   }, [])
 
 const getProviders = async () => {
-    return await client.users.listAuthMethods();
+    return await client.collection('emps').listAuthMethods();
 }
 const provs_query = useQuery(['auth-providers'],getProviders,)
 

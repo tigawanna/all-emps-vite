@@ -1,9 +1,9 @@
-import { Admin, User } from 'pocketbase';
+import { Admin, Record } from 'pocketbase';
 import React, { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom';
 
 interface ProtectedProps {
-user?: User | Admin | null
+user?: Record | Admin | null | undefined
 testmode?:boolean
 children:ReactNode
 to?:string

@@ -1,18 +1,17 @@
-import { User, Admin } from 'pocketbase';
+import { Record, Admin } from 'pocketbase';
 import React, { useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 
-import { client } from '../../pocketbase/config';
+
 import { login_url, redirect_url } from '../../utils/env';
 import { Loading } from './../../shared/Loading';
-
-
+import { client } from './../../pb/config';
 
 
 
 interface RedirectProps {
-user?: User | Admin | null
+user?: Record | Admin | null | undefined
 }
 
 export const Redirect: React.FC<RedirectProps> = ({user}) => {
@@ -36,34 +35,34 @@ useEffect(()=>{
     }
     else {
  
-      client.users.authViaOAuth2(
-            local_prov.name,
-            code,
-            local_prov.codeVerifier,
-            redirectUrl
-            )
-            .then((response) => {
-                client.records.update('profiles', response.user.profile?.id as string, {
-                    name: response.meta.name,
-                    avatarUrl: response.meta.avatarUrl,
+    //   client.collection('emps').authViaOAuth2(
+    //         local_prov.name,
+    //         code,
+    //         local_prov.codeVerifier,
+    //         redirectUrl
+    //         )
+    //         .then((response) => {
+    //             client.records.update('profiles', response.user.profile?.id as string, {
+    //                 name: response.meta.name,
+    //                 avatarUrl: response.meta.avatarUrl,
                     
-                }).then((res) => {
-                // console.log(" successfully updated profi;e", res)
+    //             }).then((res) => {
+    //             // console.log(" successfully updated profi;e", res)
 
-                }).catch((e) => {
-                    // console.log("error updating profile  == ", e)
-                })
-                setLoading(false)
-                // console.log("client modal after logg   == ", client.authStore.model)
-                queryClient.setQueryData(['user'], client.authStore.model)
-                navigate('/')
-                //  if (typeof window !== 'undefined') {
-                //         window.location.href = main_url;
-                //   }
+    //             }).catch((e) => {
+    //                 // console.log("error updating profile  == ", e)
+    //             })
+    //             setLoading(false)
+    //             // console.log("client modal after logg   == ", client.authStore.model)
+    //             queryClient.setQueryData(['user'], client.authStore.model)
+    //             navigate('/')
+    //             //  if (typeof window !== 'undefined') {
+    //             //         window.location.href = main_url;
+    //             //   }
 
-            }).catch((e) => {
-                // console.log("error logging in with provider  == ", e)
-            })
+    //         }).catch((e) => {
+    //             // console.log("error logging in with provider  == ", e)
+    //         })
     }
 
 },[])

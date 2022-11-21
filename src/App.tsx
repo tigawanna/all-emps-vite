@@ -9,13 +9,13 @@ import { NewPost } from './pages/posts/NewPost';
 import { Posts } from './pages/posts/Posts';
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { AuthLayout } from './pages/auth/AuthLayout';
-import { Login } from './pb/auth/Login';
 import { Signup } from './pages/auth/Signup';
 import { getUser } from './pb/config';
 import { Profile } from './pages/emp/Profile';
 import { Test } from './components/test/Test';
 import { EmpsLayout } from './pages/emp/EmpsLayout';
 import { TestLayout } from './components/test/TestLayout';
+import { Login } from './pages/auth/Login';
 
 function App() {
 const userQuery = useQuery(['user'], getUser)
