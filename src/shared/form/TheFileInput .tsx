@@ -36,6 +36,16 @@ export const TheFileInput: React.FC<TheFileInputProps> = ({
   };
    // @ts-expect-error
   const img_url_or_file = input[item.field_name]
+  const calcDims = (blob: any, border?:boolean)=>{
+   if(border && blob ){
+    return "0.3rem solid"
+   }
+  if (blob){
+
+     return "8rem"
+  }
+    return '2rem'
+  }
   return (
     <div 
      className="flex flex-col items-center justify-center w-full ">
@@ -45,8 +55,10 @@ export const TheFileInput: React.FC<TheFileInputProps> = ({
       </label>
       <div
         onClick={() => enableFileInput()}
-        style={{ borderColor: isError() ? "red" : "" }}
-        className='w-32 h-32 rounded-lg  flex-center border hover:scale-105'>
+        style={{ borderColor: isError() ? "red" : "", 
+          height: calcDims(img_url_or_file), width: calcDims(img_url_or_file), 
+          border: calcDims(img_url_or_file,true) }}
+        className='rounded-lg  flex-center hover:scale-105'>
         {
           /* @ts-expect-error */
           !input[item.field_name] ? <TheIcon Icon={AiOutlineCamera} color="black" size='50' /> :
@@ -66,7 +78,6 @@ export const TheFileInput: React.FC<TheFileInputProps> = ({
    
         ref={fileInput}
         style={{ display: 'none' }}
-      
         className="w-[90%] p-2 m-1 text-white   border border-black 
       dark:border-white h-10 text-base rounded-sm   dark:bg-slate-700"
         id={item.field_name}

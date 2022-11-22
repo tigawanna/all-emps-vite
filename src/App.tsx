@@ -66,7 +66,7 @@ if (userQuery.isLoading ) {
             },
             {
               path: '/post/new',
-              element: <NewPost />,
+              element: <NewPost user={user}/>,
               // action: newPostAction,
             },
           ],
