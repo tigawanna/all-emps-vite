@@ -64,11 +64,13 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
         }
     }
     )
+
+
     const handleSubmit = async (data: FormData) => {
         addUserMutation.mutate({ coll_name: 'user', payload: data })
     };
 
-
+console.log("add mutation ----==> ", addUserMutation)
 return (
 <div className="w-full h-full flex flex-col items-center justify-center">
     
@@ -114,30 +116,7 @@ const validate = ({ input, setError }: Validate) => {
         setError({ name: "password", message: "password minimun length is 8" })
         return false
     }
-    // if (input.passwordConfirm.length < 8) {
-    //     setError({ name: "passwordConfirm", message: "password minimun length is 8" })
-    //     return false
-    // }
-    // if (input.passwordConfirm !== input.password) {
-    //     setError({ name: "passwordConfirm", message: "ensure the passwords match" })
-    //     return false
-    // }
-    // if (input.name === "") {
-    //     setError({ name: "name", message: "name field required" })
-    //     return false
-    // }
-    // if (input.pic === "") {
-    //     setError({ name: "pic", message: "pic field required" })
-    //     return false
-    // }
-    // if (input.country === "") {
-    //     setError({ name: "pic", message: "pic field required" })
-    //     return false
-    // }
-    // if (input.phone.length < 10) {
-    //     setError({ name: "phone", message: "number must be 10 digits long" })
-    //     return false
-    // }
+
     setError({ name: "", message: "" })
     return true
 }

@@ -25,10 +25,6 @@ request shape:
     country:string,
     bio:string required,
     cv:string google doc link,
-    brief_description:string,
-    jobtype:string keywords with spaces,
-    employment_status:"hired"|"hired and searching"| "unhired and searching"
-
 }
 ```
 
@@ -44,11 +40,6 @@ final user profile record should look like
     avatar:string file url,
     bio:string required,
     cv:string google doc link,
-    brief_description:string,
-    jobtype:string keywords with spaces,
-    employment_status:"hired"|"hired and searching"| "unhired and searching",
-    
-
 }
 ```
 [hosted on vercel](https://allemps-vite.vercel.app/)
