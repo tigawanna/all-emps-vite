@@ -1,5 +1,6 @@
 import React from 'react'
-import { FormOptions } from './types';
+import { FormOptions, InputTypes } from './types';
+
 
 
 interface TheInputProps {
@@ -27,6 +28,8 @@ const isError = () => {
   return false;
 };
 
+  const value = input[item.field_name as keyof typeof input]
+
 return (
   <div className="flex flex-col items-center justify-center w-full ">
     <label className="font-bold  text-md capitalize  w-[90%] flex items-start">
@@ -45,22 +48,40 @@ return (
       placeholder={item.placeholder??"enter " + item.field_name}
       onChange={handleChange}
       autoComplete={"off"}
-
-      // @ts-expect-error
-      value={input[item.field_name]}
+      value={value}
    
     />
-    :
-    <div
-        className="w-[90%] p-2 m-1 min-h-10 text-base border-b rounded-sm   
-        focus:border-2 dark:focus:border-4 focus:border-purple-700 dark:focus:border-purple-600"
-    >
-         {/*@ts-expect-error */}
-      {input[item.field_name]}</div>
+    :<TheInputAlt label={value} type={item.field_type}/>
       }
     {isError() ? (
       <div className="text-base  text-red-600">{error.message}</div>
     ) : null}
   </div>
+);
+}
+
+
+
+
+interface TheInputAltProps {
+ label:string
+ type:InputTypes
+}
+
+export const TheInputAlt: React.FC<TheInputAltProps> = ({label,type}) => {
+return (
+  <div
+    className="w-[90%]  p-2 m-1 min-h-10 text-base border-b rounded-sm   
+    focus:border-2 dark:focus:border-4 focus:border-purple-700 dark:focus:border-purple-600">
+    {
+    type ==="url"?<a
+    target="_blank"
+    className='text-blue-600 truncate ' 
+    href={label}>{label}</a>
+    :<div>{label}</div>
+    }
+  
+
+ </div>
 );
 }

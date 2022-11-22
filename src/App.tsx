@@ -126,7 +126,7 @@ if (userQuery.isLoading ) {
   ]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen scroll-bar dark:bg-slate-900 dark:text-white dark:shadow-white">
       <RouterProvider router={router} />;
     </div>
   )

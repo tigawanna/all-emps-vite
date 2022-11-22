@@ -120,7 +120,7 @@ class TheForm extends React.Component<Props, State> {
 
   render() {
 
-  console.log("this.props.error === ",this.props.error)
+  // console.log("this.props.error === ",this.props.error)
   //   console.log("this.state.error === ", this.state.error)
     return (
       <div className="w-full h-full flex flex-col items-center 

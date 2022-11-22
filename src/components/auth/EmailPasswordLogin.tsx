@@ -3,7 +3,6 @@ import TheForm from '../../shared/form/TheForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormOptions } from '../../shared/form/types';
 import { useNavigate } from 'react-router-dom';
-import { concatErrors } from './utils';
 import { client } from './../../pb/config';
 
 
@@ -19,22 +18,14 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
     const [authing,setAuthing]=React.useState(true)
     const [error, setError] = React.useState({ name: "main", message: "" })
     const queryClient = useQueryClient();
+
     const form_input: FormOptions[] = [
         { field_name: "email", field_type: "text", default_value: "",editing },
         { field_name: "password", field_type: "password", default_value: "",editing },
    ] 
-   console.log("error in login ==== > ",error) 
+//    console.log("error in login ==== > ",error) 
     const addUserMutation = useMutation(async(vars: { coll_name: string, payload: FormData }) => {
-        // console.log("auth mutation vars == ",vars.payload)
-        // return client.users.authViaEmail(
-        //     vars.payload.get('email') as string,
-        //     vars.payload.get('password') as string)
-        //       .then((res) => {
-        //         queryClient.setQueryData(['user'], () => res.user);
-        //         setAuthing(false)
-        //         navigate('/')
-        //     })
-        try{
+       try{
             const result = await client.collection('emps').authWithPassword(
                 vars.payload.get('email') as string,
                 vars.payload.get('password') as string
@@ -79,9 +70,8 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
 
 
 return (
-<div className="w-full h-full flex flex-col items-center justify-center
-
-">
+<div className="w-full h-full flex flex-col items-center justify-center">
+    
 
   <TheForm
    form_title='Login'
@@ -110,7 +100,7 @@ interface Validate {
 
 
 const validate = ({ input, setError }: Validate) => {
-    console.log("input === ",input)
+    // console.log("input === ",input)
     const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (input.email === "") {
         setError({ name: "email", message: "email field required" })

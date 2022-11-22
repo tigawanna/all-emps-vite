@@ -30,6 +30,7 @@ export type InputTypes =
   | "textarea"
   | "searchselect"
   |"countryselect"
+  |"url"
   ;
 
 

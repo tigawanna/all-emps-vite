@@ -171,7 +171,7 @@ const makeinputs = (emps_data: EmpsDetails | undefined ,editing:boolean,user?:Re
     editing },
     { field_name: "phone", field_type: "text", default_value: emps_data?.phone??"", required: true, editing },
     {
-     field_name: "cv", field_type: "text", default_value: emps_data?.cv, required: true, editing,
+     field_name: "cv", field_type: "url", default_value: emps_data?.cv, required: true, editing,
       placeholder: "enter google doc link"
     },
     { field_name: "user", field_type: "text", default_value: user?.id as string, required: true, editing:false },
