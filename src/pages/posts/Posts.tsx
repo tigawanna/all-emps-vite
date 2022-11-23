@@ -6,11 +6,13 @@ import { Record } from 'pocketbase';
 import { ListResult } from 'pocketbase';
 import { usePaginatedCollection } from './../../pb/useCollection';
 import { useInView } from 'react-intersection-observer'
+import { PostsCard } from '../../components/posts/PostCard';
+import { PostType } from './../../components/posts/types';
 
 interface PostsProps {
 
 }
-interface RecordItem extends Record {
+export interface RecordItem extends Record {
   body: string
   media?: string
   emp: string
@@ -26,12 +28,13 @@ export const Posts: React.FC<PostsProps> = ({}) => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status, } = usePaginatedCollection({
-    key:['posts'],
-    rqOptions:{
+    status, } = usePaginatedCollection<PostType>(
+    ['posts'],
+    "emp",
+      "",
+    {
         enabled:true,
-
-        select: (data) => {
+         select: (data) => {
         return data
         },
         
@@ -42,9 +45,9 @@ export const Posts: React.FC<PostsProps> = ({}) => {
           return 
         }
      }
-  }
+  
   )
-
+console.log("data ====>> ",data)
   React.useEffect(() => {
     if (inView) {
       fetchNextPage()
@@ -56,7 +59,7 @@ return (
 <div className='w-[95%] flex flex-col items-center justify-center gap-2'>
       {data?.pages.map((page) => {
         return page.items.map((item) => {
-          return <PostsCard item={item as RecordItem} key={item.id} />
+          return <PostsCard item={item} key={item.id} />
         })
       })
       }
@@ -83,34 +86,4 @@ return (
 
 
 
-interface PostsCardProps {
-  item: RecordItem
-}
 
-export const PostsCard: React.FC<PostsCardProps> = ({item}) => {
-  // console.log("url === ", makeUrl(item))
-return (
- <div className='w-[90%] md:w-[50%] p-2 flex flex-col  border-[2px] rounded-sm gap-1'>
-    <div className='w-full  flex text-xl font-bold '>
-      {item.body}
-    </div>
-
-   {item.media?<img src={makeUrl(item)}
-      className='w-full h-fit bg-red-600'/>:null}
-   
-    <div className='w-full  flex'>
-      {item.emp}
-    </div>
- </div>
-);
-}
-
-
-const makeUrl = (record: RecordItem ) => {
-
-  if (record?.media) {
-    return `https://emps.tigawanna.tech/api/files/posts/${record.id}/${record?.media}`
-  }
-  return 
-
-}

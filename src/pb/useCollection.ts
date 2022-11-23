@@ -63,38 +63,35 @@ interface pageT {
   filter?: string;
   expand?: string;
   rqOptions?:
-    | Omit<
-        UseInfiniteQueryOptions<
-          ListResult<Record>,
-          unknown,
-          ListResult<Record>,
-          ListResult<Record>,
-          string[]
-        >,
-        "queryKey" | "queryFn"
-      >
+    | Omit<UseInfiniteQueryOptions<ListResult<T>,unknown,ListResult<T>,ListResult<T>,string[]>,"queryKey" | "queryFn">
     | undefined;
 }
 // pass in the collaction argument at index 0
 
-export const usePaginatedCollection = ({key,filter = "",expand = "",rqOptions = {}}: pageT) => {
+export const usePaginatedCollection = <T>
+(
+  key: string[],
+  filter?: string,
+  expand?: string,
+  rqOptions?:
+    | Omit<UseInfiniteQueryOptions<ListResult<T>,unknown,ListResult<T>,ListResult<T>,string[]>,
+    "queryKey" | "queryFn">
+    | undefined
+
+) => {
   // console.log("filter ===",filter)
-  const fetcherFunction = async (deps:any) => {
+  const fetcherFunction = async (
+    deps: any
+  ): Promise<ListResult<T>> => {
     // console.log("-- page  ---> ",deps.pageParam)
     return await client
       .collection(key[0])
-      .getList(
-        deps.pageParam,
-        2, {
+      .getList(deps.pageParam, 2, {
         filter: `${filter}`,
-        expand: expand, 
+        expand: expand,
       });
   };
-  return useInfiniteQuery<
-    ListResult<Record>,
-    unknown,
-    ListResult<Record>,
-    string[]
+  return useInfiniteQuery<ListResult<T>,unknown,ListResult<T>,string[]
   >(key, fetcherFunction, rqOptions);
 };
 
