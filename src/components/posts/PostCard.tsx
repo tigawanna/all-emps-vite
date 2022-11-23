@@ -13,17 +13,23 @@ interface PostCardProps {
 
 
 interface PostCardProps {
-    item: PostType | RecordItem
+    item: PostType 
 }
 
 export const PostsCard: React.FC<PostCardProps> = ({ item }) => {
     // console.log("url === ", makeUrl(item))
     return (
         <div className='w-[90%] md:w-[50%] p-2 flex flex-col  border-[2px] rounded-sm gap-1'>
-            <div className='w-full  flex text-xl font-bold '>
-                {/* {item.expand.emp} */}
+            <div className='w-full flex'>
+                <div className='flex text-xl font-bold '>
+                    {item.expand.emp?.name}
+                </div> 
+                <div className='flex text-lg '>
+                    @{item.expand.emp?.username}
+                </div> 
+               
             </div>      
-            <div className='w-full  flex text-xl font-bold '>
+            <div className='w-full  flex text-lg font-bold '>
                 {item.body}
             </div>
 

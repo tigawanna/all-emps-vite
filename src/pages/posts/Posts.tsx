@@ -30,18 +30,14 @@ export const Posts: React.FC<PostsProps> = ({}) => {
     isFetchingNextPage,
     status, } = usePaginatedCollection<PostType>(
     ['posts'],
+    "",
     "emp",
-      "",
     {
-        enabled:true,
-         select: (data) => {
-        return data
-        },
-        
-        getNextPageParam: (lastPage, allPages) =>{
+   
+     getNextPageParam: (lastPage, allPages) =>{
         if(lastPage.totalPages > lastPage.page){
             return lastPage.page + 1
-          }
+        }
           return 
         }
      }
