@@ -79,14 +79,15 @@ interface pageT {
 
 export const usePaginatedCollection = ({key,filter = "",expand = "",rqOptions = {}}: pageT) => {
   // console.log("filter ===",filter)
-  const fetcherFunction = async () => {
+  const fetcherFunction = async (deps:any) => {
+    // console.log("-- page  ---> ",deps.pageParam)
     return await client
       .collection(key[0])
       .getList(
-        1,
-        5, {
+        deps.pageParam,
+        2, {
         filter: `${filter}`,
-        expand: expand,
+        expand: expand, 
       });
   };
   return useInfiniteQuery<
