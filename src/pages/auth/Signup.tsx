@@ -2,7 +2,7 @@ import React from "react";
 import { Admin, Record } from "pocketbase";
 import { EmailPasswordSignup } from '../../components/auth/EmailPasswordSignup';
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+
 
 
 interface SignupProps {

@@ -7,7 +7,6 @@ import { FormOptions } from '../../shared/form/types';
 
 import { TheIcon } from '../../shared/TheIcon';
 import { FaRegEdit } from 'react-icons/fa';
-import { useCollection } from './../../pb/useCollection';
 import { client } from './../../pb/config';
 import { concatErrors } from './../../components/auth/utils';
 import { Record } from 'pocketbase';
