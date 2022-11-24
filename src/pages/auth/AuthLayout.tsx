@@ -12,12 +12,15 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({user}) => {
 const navigate = useNavigate()
 console.log("user ===",user)
 useEffect(()=>{
-if (user?.email && (user?.bio ===""|| user?.avatar==="")) {
-    navigate('/profile')
-}
-else{
- navigate('/')
-}
+if(user){
+    if (user?.email && (user?.bio === "" || user?.avatar === "")) {
+        navigate('/profile')
+    }
+    else{
+        navigate('/')
+    }
+}    
+
 },[user])
 
 
