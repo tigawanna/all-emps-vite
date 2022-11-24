@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { EmailPasswordLogin } from "../../components/auth/EmailPasswordLogin";
 import { Record } from 'pocketbase';
 import { Admin } from 'pocketbase';
+import { Link } from 'react-router-dom';
 
 
 
@@ -23,17 +24,19 @@ export const Login: React.FC<LoginProps> = ({user}) => {
 
 
 return (
-  <div className="w-full min-h-full md:h-full flex flex-col md:flex-row items-center justify-center
+  <div className="w-full  h-[70%] flex flex-col items-center 
+  justify-center 
 
   ">
-    <div className="w-[80%] h-fit md:w-[60%]  m-2 p-2 flex flex-col 
-    items-center justify-center ">
+    <div className="w-[80%] md:w-[60%]  m-2 p-2 flex flex-col 
+    items-center justify-start ">
     <EmailPasswordLogin/>
     </div>
-    {/* <div className="w-[80%] h-fit md:h-[70%] md:w-[25%]  m-2 flex flex-col items-center 
-    justify-center shadow-md">
-      <SocialsLogin />
-    </div> */}
+    <Link
+    className="text-blue-500"
+    to={'/auth/signup'}>
+      Create new account
+    </Link>
     </div>
   );
 };

@@ -12,6 +12,7 @@ import { client } from './../../pb/config';
 import { concatErrors } from './../../components/auth/utils';
 import { Record } from 'pocketbase';
 import { Admin } from 'pocketbase';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileProps {
     user?: Record | Admin | null
@@ -46,6 +47,7 @@ export interface EmpsDetails {
 export const Profile: React.FC<ProfileProps> = ({user }) => {
 
 const emp = user as EmpsDetails | undefined  
+const navigate = useNavigate()
 // console.log("prfile user == ",user)
 const [editing, setEditing] = React.useState(user?.name===""|| user?.avatar==="")
 const [error, setError] = React.useState({ name: "", message: "" })
@@ -72,6 +74,8 @@ try{
     {
       onSettled: () => {
         queryClient.invalidateQueries(["user"]);
+        navigate('/')
+        
       },
       onError: (err) => {
         // console.log("mutation error ==== ", concatErrors(err))
@@ -81,6 +85,7 @@ try{
 )
 const handleSubmit = async (data: FormData) => {
     await updateProfileMutation.mutate({ coll_name: 'emps', payload: data })
+   
 };
 
 
@@ -128,7 +133,7 @@ interface Validate {
 
 
 const validate = ({ input, setError }: Validate) => {
-  console.log("input === ", input)
+  // console.log("input === ", input)
   // const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   if (input.bio === "") {
     setError({ name: "bio", message: "bio field required" })

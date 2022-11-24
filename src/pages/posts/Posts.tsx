@@ -39,7 +39,7 @@ export const Posts: React.FC<PostsProps> = ({}) => {
   
   )
 const data =postsQuery.data
-console.log("data ====>> ",data)
+// console.log("data ====>> ",data)
   React.useEffect(() => {
     if (inView) {
       postsQuery.fetchNextPage()
