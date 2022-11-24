@@ -134,7 +134,7 @@ const testmode= false
       isLoading={userQuery.isLoading}
 
     >
-    <div className="w-full h-screen scroll-bar dark:bg-slate-900 dark:text-white dark:shadow-white">
+    <div className="w-full h-screen scroll-bar overflow-y-hidden dark:bg-slate-900 dark:text-white dark:shadow-white">
       <RouterProvider router={router} />;
     </div>
   </QueryStateWrapper>
