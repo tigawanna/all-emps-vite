@@ -7,6 +7,7 @@ import { client } from './../../pb/config';
 
 
 
+
 interface EmailPasswordSignupProps {
 
 }
@@ -16,7 +17,7 @@ export const EmailPasswordSignup: React.FC<EmailPasswordSignupProps> = ({}) => {
     const [error, setError] = React.useState({name: "", message:""})
 
     const queryClient = useQueryClient();
-   
+
    
     const form_input: FormOptions[] = [
         { field_name: "email", field_type: "text", default_value: "",required:true,editing },
@@ -41,6 +42,8 @@ export const EmailPasswordSignup: React.FC<EmailPasswordSignupProps> = ({}) => {
     {
         onSettled: () => {
             queryClient.invalidateQueries(["user"]);
+            // navigate('/profile')
+            // navigate('/profile')
         },
         onError:(err:any)=>{
             // console.log("mutation error ==== ", concatErrors(err))
@@ -50,14 +53,12 @@ export const EmailPasswordSignup: React.FC<EmailPasswordSignupProps> = ({}) => {
     }
     )
     const handleSubmit = async (data: FormData) => {
-        addUserMutation.mutate({ coll_name: 'user', payload: data })
+     await addUserMutation.mutate({ coll_name: 'user', payload: data })
     };
 
     // console.log("errors state === ",error)
 return (
-<div className="w-full h-full flex flex-col items-center justify-center
-
-">
+<div className="w-full h-full flex flex-col items-center justify-center">
 
   <TheForm
    form_title='Sign Up'
@@ -86,7 +87,7 @@ interface Validate {
 
 
 const validate = ({ input, setError }: Validate) => {
-    console.log("input === ",input)
+    // console.log("input === ",input)
     const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (input.email === "") {
         setError({ name: "email", message: "email field required" })

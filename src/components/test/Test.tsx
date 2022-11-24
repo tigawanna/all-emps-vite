@@ -54,20 +54,22 @@ export const Test: React.FC<TestProps> = ({}) => {
 
 return (
  <div>
-        <TheForm
-            form_title='Login'
-            fields={form_input}
-            validate={validate}
-            submitFn={handleSubmit}
-            is_submitting={addUserMutation.isLoading && !authing}
-            error={error}
-            editing={editing}
-        />
+
  </div>
 );
 }
 
 
+
+{/* <TheForm
+    form_title='Login'
+    fields={form_input}
+    validate={validate}
+    submitFn={handleSubmit}
+    is_submitting={addUserMutation.isLoading && !authing}
+    error={error}
+    editing={editing}
+/> */}
 export interface SignupFormInput {
     email: string
     password: string

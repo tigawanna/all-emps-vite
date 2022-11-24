@@ -2,7 +2,6 @@ import React from 'react'
 import TheForm from '../../shared/form/TheForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormOptions } from '../../shared/form/types';
-import { useNavigate } from 'react-router-dom';
 import { client } from './../../pb/config';
 
 
@@ -14,7 +13,7 @@ interface EmailPasswordLoginProps {
 
 export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
     const editing=true
-    const navigate = useNavigate()
+
     const [authing,setAuthing]=React.useState(true)
     const [error, setError] = React.useState({ name: "main", message: "" })
     const queryClient = useQueryClient();
@@ -67,10 +66,11 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
 
 
     const handleSubmit = async (data: FormData) => {
-        addUserMutation.mutate({ coll_name: 'user', payload: data })
+        await addUserMutation.mutate({ coll_name: 'user', payload: data })
+
     };
 
-console.log("add mutation ----==> ", addUserMutation)
+// console.log("add mutation ----==> ", addUserMutation)
 return (
 <div className="w-full h-full flex flex-col items-center justify-center">
     
@@ -80,7 +80,7 @@ return (
    fields={form_input}
    validate={validate}
    submitFn={handleSubmit}
-   is_submitting={addUserMutation.isLoading&&!authing}
+   is_submitting={addUserMutation.isLoading}
    error={error}
    editing={editing}
   />

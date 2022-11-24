@@ -12,6 +12,7 @@ import { AiOutlineHome } from 'react-icons/ai'
 import { client, getUser } from './../../../pb/config';
 import { Admin } from 'pocketbase';
 import { Record } from 'pocketbase';
+import { ProfileMenu } from "../../../shared/ProfileMenu";
 
 
 
@@ -29,31 +30,16 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
   const nextTheme = theme.theme === 'dark' ? 'light' : 'dark'
   const mode = theme.theme === "dark" ? BsSunFill : BsFillMoonFill;
   const toggle = () => {theme.setTheme(nextTheme)}
-  const queryClient = useQueryClient();
   
   const user = userQuery?.data
-
-  const logout = () => {
-     client.authStore.clear();
-    queryClient.invalidateQueries(["user"]);
-  };
-  const image = "user?.profile?.avatarUrl";
-
+  const avatar = makeUrl(user)
 
   return (
-    <div className="w-[100%] dark:text-white  p-1 flex justify-center items-center h-full">
+    <div className="w-[100%] dark:text-white  p-1 px-2 flex justify-center items-center h-full">
 
-        {open ? (
-          <Consent
-            setOpen={setOpen}
-            message={"Sign Out?"}
-            action={logout}
 
-          />
-        ) : null}
 
-        <div className="flex flex-grow flex-1 justify-center items-center text-lg 
-        font-bold h-full w-full ">
+        <div className="flex flex-grow flex-1 justify-center items-center  h-full w-full ">
           <div className="m-1 w-full h-full p-1 flex justify-center items-center ">
        
             <Link to="/" >
@@ -80,7 +66,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
           </div>
           <div
             className="  rounded-md  flex justify-center items-center
-          dark:text-white w-16  h-full  ">
+          dark:text-white w-16  h-full  aspect-square">
             {!user ? (
               <Link to="/auth" >
              <TheIcon
@@ -91,12 +77,24 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
              </Link>
             ) : (
               <img
-               src={makeUrl(user)}
+               src={avatar}
               alt={""}
-                  className="rounded-[50%] hover:rounded-sm border-2 max-h-[40px] "
+                  className="rounded-[50%] hover:rounded-sm border-2 max-h-[40px] aspect-square"
                 onClick={() => setOpen(true)}
               />
             )}
+          {open ? (
+            <div className="z-50 w-screen h-screen fixed top-14 right-0 bottom-0 left-0
+            bg-slate-900 bg-opacity-70
+            ">
+            <div className="z-30 w-screen h-screen fixed top-14 right-0 bottom-0 left-0
+            bg-slate-900 bg-opacity-70
+            "
+            onClick={()=>setOpen(prev=>!prev)}
+            ></div>
+            <ProfileMenu user={user} avatar={avatar} setOpen={setOpen}/>
+            </div>
+          ) : null}
           </div>
         </div>
 
