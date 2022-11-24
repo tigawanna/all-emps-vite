@@ -28,10 +28,13 @@ export const Posts: React.FC<PostsProps> = ({}) => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
+
     status, } = usePaginatedCollection<PostType>(
     ['posts'],
-    "",
-    "emp",
+     {
+      perpage:5,
+      expand:'emp',
+     },
     {
    
      getNextPageParam: (lastPage, allPages) =>{
