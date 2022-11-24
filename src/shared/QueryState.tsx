@@ -1,4 +1,5 @@
 import React from 'react'
+import { Loading } from './Loading';
 
 interface QueryStateProps {
 isLoading:boolean;
@@ -12,7 +13,9 @@ export const QueryStateWrapper: React.FC<QueryStateProps> = ({isLoading,isError,
     if (isLoading) {
         return (
             <div className="w-full h-screen flex-center scroll-bar">
-                <div className="w-[670%] h-[70%] flex-center ">loading....</div>
+                <div className="w-[670%] h-[70%] flex-center ">
+                    <Loading size={80}/>
+                </div>
             </div>
         );
     }
