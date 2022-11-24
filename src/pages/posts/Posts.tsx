@@ -8,6 +8,7 @@ import { usePaginatedCollection } from './../../pb/useCollection';
 import { useInView } from 'react-intersection-observer'
 import { PostsCard } from '../../components/posts/PostCard';
 import { PostType } from './../../components/posts/types';
+import { QueryStateWrapper } from '../../shared/QueryState';
 
 interface PostsProps {
 
@@ -20,18 +21,12 @@ export interface RecordItem extends Record {
 
 export const Posts: React.FC<PostsProps> = ({}) => {
   const { ref, inView } = useInView()
-  const { 
-    data,
-    error,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status, } = usePaginatedCollection<PostType>(
+  const postsQuery = usePaginatedCollection<PostType>(
     ['posts'],
-    "",
-    "emp",
+     {
+      perpage:5,
+      expand:'emp',
+     },
     {
    
      getNextPageParam: (lastPage, allPages) =>{
@@ -43,14 +38,21 @@ export const Posts: React.FC<PostsProps> = ({}) => {
      }
   
   )
+const data =postsQuery.data
 console.log("data ====>> ",data)
   React.useEffect(() => {
     if (inView) {
-      fetchNextPage()
+      postsQuery.fetchNextPage()
     }
   }, [inView])
 
 return (
+  <QueryStateWrapper
+  error={postsQuery.error}
+  isError={postsQuery.isError}
+  isLoading={postsQuery.isLoading}
+  data={data?.pages}
+  >
  <div className='w-full flex flex-col gap-1 items-center justify-center'>
 <div className='w-[95%] flex flex-col items-center justify-center gap-2'>
       {data?.pages.map((page) => {
@@ -66,16 +68,17 @@ return (
     <div>
        <button
         ref={ref}
-          onClick={() => fetchNextPage()}
-        disabled={!hasNextPage || isFetchingNextPage}
+        onClick={() => postsQuery.fetchNextPage()}
+        disabled={!postsQuery.hasNextPage || postsQuery.isFetchingNextPage}
       >
-        {isFetchingNextPage? 'Loading more...'
-          : hasNextPage ? 'Load More'
-           : !isLoading? 'Nothing more to load':null}
+        {postsQuery.isFetchingNextPage? 'Loading more...'
+          : postsQuery.hasNextPage ? 'Load More'
+            : !postsQuery.isLoading? 'Nothing more to load':null}
       </button>
     </div>
 
  </div>
+  </QueryStateWrapper>
 );
 }
 

@@ -41,13 +41,8 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
 
 
   return (
-    <div className="w-[100%] dark:text-white  p-2 flex justify-center items-center">
-      <IconContext.Provider
-        value={{
-          size: "25px",
-          className: "table-edit-icons",
-        }}
-      >
+    <div className="w-[100%] dark:text-white  p-1 flex justify-center items-center h-full">
+
         {open ? (
           <Consent
             setOpen={setOpen}
@@ -57,14 +52,15 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
           />
         ) : null}
 
-        <div className="flex flex-grow flex-1 justify-center items-center text-lg font-bold h-full w-full ">
+        <div className="flex flex-grow flex-1 justify-center items-center text-lg 
+        font-bold h-full w-full ">
           <div className="m-1 w-full h-full p-1 flex justify-center items-center ">
        
             <Link to="/" >
               <div className="w-fit p-1 mx-5 flex justify-center items-center dark:text-white  ">
                 <TheIcon
                   Icon={AiOutlineHome}
-                  size={"30"}
+                  size={"25"}
                   color={""}
                   iconstyle={""}
                  />
@@ -84,12 +80,12 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
           </div>
           <div
             className="  rounded-md  flex justify-center items-center
-          dark:text-white w-16 min-h-16 h-full  ">
+          dark:text-white w-16  h-full  ">
             {!user ? (
               <Link to="/auth" >
              <TheIcon
               Icon={FaUserCircle}
-              size={"30"}
+              size={"25"}
               color={""}
              />
              </Link>
@@ -97,13 +93,13 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
               <img
                src={makeUrl(user)}
               alt={""}
-                  className="rounded-[50%] hover:rounded-sm border-2 max-h-[50px] "
+                  className="rounded-[50%] hover:rounded-sm border-2 max-h-[40px] "
                 onClick={() => setOpen(true)}
               />
             )}
           </div>
         </div>
-      </IconContext.Provider>
+
     </div>
   );
 };

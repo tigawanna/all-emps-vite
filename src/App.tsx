@@ -16,29 +16,30 @@ import { Test } from './components/test/Test';
 import { EmpsLayout } from './pages/emp/EmpsLayout';
 import { TestLayout } from './components/test/TestLayout';
 import { Login } from './pages/auth/Login';
+import { QueryStateWrapper } from './shared/QueryState';
 
 function App() {
 const userQuery = useQuery(['user'], getUser)
 const testmode= false
 
 
-if (userQuery.isLoading ) {
-    return (
-      <div className="w-full h-screen flex-center scroll-bar">
-        <div className="w-[670%] h-[70%] flex-center ">loading....</div>
-      </div>
-    );
-  }
-  if (userQuery.isError) {
-    return (
-      <div className="w-full h-screen flex-center scroll-bar">
-        <div className="w-[670%] h-[70%] flex-center ">
-          {/* @ts-expect-error */}
-         {userQuery?.error?.response?.message}
-        </div>
-        </div>
-    ); 
-  }
+// if (userQuery.isLoading ) {
+//     return (
+//       <div className="w-full h-screen flex-center scroll-bar">
+//         <div className="w-[670%] h-[70%] flex-center ">loading....</div>
+//       </div>
+//     );
+//   }
+//   if (userQuery.isError) {
+//     return (
+//       <div className="w-full h-screen flex-center scroll-bar">
+//         <div className="w-[670%] h-[70%] flex-center ">
+//           {/* @ts-expect-error */}
+//          {userQuery?.error?.response?.message}
+//         </div>
+//         </div>
+//     ); 
+//   }
   const user = userQuery?.data;
 
 
@@ -124,11 +125,19 @@ if (userQuery.isLoading ) {
     //   action: newsletterAction,
     // },
   ]);
+  
 
   return (
-    <div className="w-full h-screen scroll-bar dark:bg-slate-900 dark:text-white dark:shadow-white">
+    <QueryStateWrapper
+      error={userQuery.error}
+      isError={userQuery.isError}
+      isLoading={userQuery.isLoading}
+
+    >
+    <div className="w-full h-screen scroll-bar overflow-y-hidden dark:bg-slate-900 dark:text-white dark:shadow-white">
       <RouterProvider router={router} />;
     </div>
+  </QueryStateWrapper>
   )
 }
 

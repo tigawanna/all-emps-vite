@@ -11,9 +11,9 @@ export const RootLayout: React.FC<RootLayoutProps> = ({}) => {
   // const load_data = useLoaderData()
   // console.log("loader data ====== > ",load_data)
   return (
-    <div className='h-full w-full '>
+    <div className='h-full w-full overflow-y-scroll scroll-bar'>
       <div className='h-16 w-full  bg-slate-700 dark:bg-slate-800  
-      bg-opacity-50 dark:bg-opacity-50
+      bg-opacity-50 dark:bg-opacity-50 max-h-[50px] p-1
        sticky top-0 z-40'>
       <Toolbar/>
       </div>
