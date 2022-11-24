@@ -12,7 +12,7 @@ children: React.ReactNode
 export const QueryStateWrapper: React.FC<QueryStateProps> = ({isLoading,isError,error,data,children}) => {
     if (isLoading) {
         return (
-            <div className="w-full h-[80%] flex-center scroll-bar">
+            <div className="w-full h-full flex-center scroll-bar">
                 <div className="w-[670%] h-[70%] flex-center ">
                     <Loading size={80}/>
                 </div>

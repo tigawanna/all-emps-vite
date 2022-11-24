@@ -2,16 +2,17 @@
 import { Record } from "pocketbase";
 
 export interface PostType{
-  body: string;
-  collectionId: string;
-  collectionName: string;
-  created: string;
-  emp: string;
-  expand: Expand;
-  id: string;
-  media: string;
-  title: string;
-  updated: string;
+  body: string
+  collectionId: string
+  collectionName: string
+  created: string
+  emp: string
+  expand?: Expand
+  id: string
+  like_count: number
+  media: string
+  title: string
+  updated: string
 }
 
 export interface Expand {

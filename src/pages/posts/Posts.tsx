@@ -2,16 +2,16 @@ import React from 'react'
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchPosts } from '../../pb/useCollection';
-import { Record } from 'pocketbase';
+import { Record, Admin } from 'pocketbase';
 import { ListResult } from 'pocketbase';
 import { usePaginatedCollection } from './../../pb/useCollection';
 import { useInView } from 'react-intersection-observer'
 import { PostsCard } from '../../components/posts/PostCard';
 import { PostType } from './../../components/posts/types';
-import { QueryStateWrapper } from '../../shared/QueryState';
+import { QueryStateWrapper } from '../../shared/QueryStateWrapper';
 
 interface PostsProps {
-
+  user: Record | Admin | null | undefined
 }
 export interface RecordItem extends Record {
   body: string
@@ -19,8 +19,9 @@ export interface RecordItem extends Record {
   emp: string
 }
 
-export const Posts: React.FC<PostsProps> = ({}) => {
+export const Posts: React.FC<PostsProps> = ({user}) => {
   const { ref, inView } = useInView()
+
   const postsQuery = usePaginatedCollection<PostType>(
     ['posts'],
      {
@@ -57,7 +58,7 @@ return (
 <div className='w-[95%] flex flex-col items-center justify-center gap-2'>
       {data?.pages.map((page) => {
         return page.items.map((item) => {
-          return <PostsCard item={item} key={item.id} />
+          return <PostsCard item={item} key={item.id} user={user}/>
         })
       })
       }

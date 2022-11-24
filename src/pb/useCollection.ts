@@ -34,15 +34,7 @@ interface VarsT{
     payload: {};
 
 }
-interface UseMutateProps {
-  vars: VarsT;
-  rqOptions?: UseMutationOptions<
-    Record,
-    unknown,
-    VarsT,
-    string[]
-  >;
-}
+
 
 // export const useMutateCollection = ({vars,rqOptions}:UseMutateProps) => {
 //   return useMutation<Record,unknown,VarsT,string[]>((variables) => {

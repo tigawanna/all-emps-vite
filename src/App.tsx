@@ -16,7 +16,7 @@ import { Test } from './components/test/Test';
 import { EmpsLayout } from './pages/emp/EmpsLayout';
 import { TestLayout } from './components/test/TestLayout';
 import { Login } from './pages/auth/Login';
-import { QueryStateWrapper } from './shared/QueryState';
+import { QueryStateWrapper } from './shared/QueryStateWrapper';
 
 function App() {
 const userQuery = useQuery(['user'], getUser)
@@ -57,7 +57,7 @@ const testmode= false
           children: [
             {
               index: true,
-              element: <Posts/>,
+              element: <Posts user={user}/>,
               // loader: deferredBlogPostsLoader,
             },
             {
