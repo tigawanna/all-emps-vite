@@ -7,7 +7,7 @@ import { Admin } from 'pocketbase';
 import { Record } from 'pocketbase';
 
 interface NewPostProps {
-user:Record|Admin|null
+user:Record|Admin|null|undefined
 }
 
 export const NewPost: React.FC<NewPostProps> = ({user}) => {
