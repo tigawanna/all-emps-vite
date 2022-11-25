@@ -24,7 +24,8 @@ export const PostsCard: React.FC<PostCardProps> = ({ item,user }) => {
     // console.log("url === ", makeUrl(item))
 
 return (
-        <div className='w-[90%] md:w-[50%] p-2 flex flex-col  border-black border-2  dark:border-white
+        <div className='w-[90%] md:w-[50%] p-2 flex flex-col  border-black border-2 
+        dark:border-[1px]  dark:border-white
         rounded-lg gap-3'>
             <div className='w-full flex flex-col gap-[1px]'>
                 <div className='flex text-sm font-bold'>
@@ -100,12 +101,14 @@ const fetchOneReaction = async () => {
      console.log("error fetching one  ==> ",err)
      return {} as any
     }
-    }
-
-    const query_key = ['emp-reaction', user?.id, item?.id] 
-
-    const query = useQuery(query_key, fetchOneReaction,{})
-    const queryClient = useQueryClient();
+}
+const query_key = ['emp-reaction', user?.id, item?.id] 
+const query = useQuery(query_key, fetchOneReaction,{})
+const queryClient = useQueryClient();
+const [liked, setLiked] = React.useState(query?.data?.like === "yes")
+React.useEffect(()=>{
+    setLiked(query?.data?.like === "yes")
+},[query.data])
     
     const updateReactionMutation = useMutation(async (vars:ReactionRequest) => {
         // console.log("update vars =====> ", vars) 
@@ -171,15 +174,17 @@ return (
 <div className='w-full flex items-center justify-evenly'>
     
     <TheIcon 
-    Icon={reaction?.like==="yes" ? AiFillHeart :AiOutlineHeart} 
+    Icon={liked ? AiFillHeart :AiOutlineHeart} 
     size='1.5rem'
-    color={reaction?.like ==="yes"?"red":""}
+    color={liked?"red":""}
     iconAction={()=>{
         if (reaction?.like){
          updateReactionMutation.mutate(reaction_vars)
+            setLiked(prev=>!prev)
         }
         else{
          newReactionMutation.mutate(reaction_vars)
+            setLiked(prev => !prev)
         }
     }}
      />
