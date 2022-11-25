@@ -1,4 +1,4 @@
-import { UseMutationOptions, useQuery, UseQueryOptions,
+import { useQuery, UseQueryOptions,
   useInfiniteQuery, UseInfiniteQueryOptions } from "@tanstack/react-query"
 import {ListResult, Record} from "pocketbase";
 import { client } from "./config";
@@ -114,3 +114,6 @@ export const usePaginatedCollection = <T>(
         // expand: expand,
       });
   };
+
+
+  
