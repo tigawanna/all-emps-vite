@@ -24,7 +24,7 @@ export const PostsCard: React.FC<PostCardProps> = ({ item,user }) => {
     // console.log("url === ", makeUrl(item))
 
 return (
-        <div className='w-[90%] md:w-[50%] p-2 flex flex-col  border-black border-2 
+        <div className='w-[90%] md:w-[50%]  p-2 flex flex-col  border-black border-2 
         dark:border-[1px]  dark:border-white
         rounded-lg gap-3'>
             <div className='w-full flex flex-col gap-[1px]'>
@@ -39,10 +39,10 @@ return (
             <div className='w-full  flex  text-sm '>
                 {item.body}
             </div>
-
+        <div className='w-full  flex items-center justify-center '>
             {item.media ? <img src={makeUrl(item)}
-                className='w-full h-fit bg-red-600' /> : null}
-
+                className=' w-fit max-h-80 ' /> : null}
+           </div>
             <div className='w-full  flex font-serif text-sm font-normal'>
                emp id:  {item.emp}
             </div>
@@ -105,11 +105,13 @@ const fetchOneReaction = async () => {
 const query_key = ['emp-reaction', user?.id, item?.id] 
 const query = useQuery(query_key, fetchOneReaction,{})
 const queryClient = useQueryClient();
+
 const [liked, setLiked] = React.useState(query?.data?.like === "yes")
 React.useEffect(()=>{
     setLiked(query?.data?.like === "yes")
 },[query.data])
-    
+
+
     const updateReactionMutation = useMutation(async (vars:ReactionRequest) => {
         // console.log("update vars =====> ", vars) 
         try {

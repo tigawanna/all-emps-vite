@@ -54,8 +54,8 @@ return (
   isLoading={postsQuery.isLoading}
   data={data?.pages}
   >
- <div className='w-full flex flex-col gap-1 items-center justify-center'>
-<div className='w-[95%] flex flex-col items-center justify-center gap-2'>
+ <div className='w-full min-h-full flex flex-col gap-2 items-center justify-center'>
+<div className='w-[95%] h-full flex flex-col items-center justify-center gap-2'>
       {data?.pages.map((page) => {
         return page.items.map((item) => {
           return <PostsCard item={item} key={item.id} user={user}/>
