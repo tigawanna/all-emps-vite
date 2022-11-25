@@ -173,7 +173,7 @@ React.useEffect(()=>{
 
 
 const reaction = query.data as ReactionResponse
-console.log("total likes  ====== ",total_likes)
+// console.log("total likes  ====== ",total_likes)
 
 const reaction_vars:ReactionRequest ={
 post:reaction.post??item?.id,
