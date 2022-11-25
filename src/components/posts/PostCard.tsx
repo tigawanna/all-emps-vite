@@ -4,14 +4,9 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { VscComment } from 'react-icons/vsc'
 import { TheIcon } from '../../shared/TheIcon';
 import { PostType } from './types';
-import { isError, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchPosts } from '../../pb/useCollection';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { client } from './../../pb/config';
 import { Record, Admin } from 'pocketbase';
-
-
-
-
 
 
 interface PostCardProps {
@@ -41,7 +36,7 @@ return (
             </div>
         <div className='w-full  flex items-center justify-center '>
             {item.media ? <img src={makeUrl(item)}
-                className=' w-fit max-h-80 ' /> : null}
+                className=' w-fit max-h-80 rounded-lg' /> : null}
            </div>
             <div className='w-full  flex font-serif text-sm font-normal'>
                emp id:  {item.emp}
@@ -91,7 +86,18 @@ comment:string
 
 export const PostReactionsCard: React.FC<PostReactionsCardProps> = ({user,item}) => {
 // console.log("post ids === ",user?.id,item.id)
-       
+const fetchReactionsCount = async () => {
+    try {
+        return await client.collection('reactions').getList(1,1,{
+            filter: ` post="${item?.id}" && like="yes"`
+        }
+        )
+    }
+        catch (err) {
+            console.log("error fetching one  ==> ", err)
+            return {} as any
+        }
+    }       
 const fetchOneReaction = async () => {
     try{
         return await client.collection('reactions').getFirstListItem(
@@ -103,7 +109,10 @@ const fetchOneReaction = async () => {
     }
 }
 const query_key = ['emp-reaction', user?.id, item?.id] 
+const count_query_key = ['like-reaction-count',item?.id,user?.id]
+
 const query = useQuery(query_key, fetchOneReaction,{})
+const likes_count_query = useQuery(count_query_key, fetchReactionsCount, {})
 const queryClient = useQueryClient();
 
 const [liked, setLiked] = React.useState(query?.data?.like === "yes")
@@ -125,6 +134,7 @@ React.useEffect(()=>{
         {
             onSettled: () => {
                 queryClient.invalidateQueries(query_key);
+                queryClient.invalidateQueries(count_query_key);
             },
             onError: (err: any) => {
            console.log("error updating ===> ",err)
@@ -143,6 +153,7 @@ React.useEffect(()=>{
     {
     onSettled: () => {
         queryClient.invalidateQueries(query_key);
+            queryClient.invalidateQueries(count_query_key);
     },
     onError: (err: any) => {
         console.log("error updating ===> ", err)
@@ -150,7 +161,7 @@ React.useEffect(()=>{
     }
     )
 
-   if(query.isLoading){
+    if (query.isLoading || likes_count_query.isLoading){
     return (
         <div className='w-full flex items-center justify-evenly'>
            ...
@@ -158,9 +169,11 @@ React.useEffect(()=>{
     )
    }
 
-   
+    const total_likes = likes_count_query?.data?.totalItems
+
+
 const reaction = query.data as ReactionResponse
-// console.log("raction ====== ",reaction)
+console.log("total likes  ====== ",total_likes)
 
 const reaction_vars:ReactionRequest ={
 post:reaction.post??item?.id,
@@ -174,22 +187,28 @@ reaction: reaction.id,
 return (
  <div className='w-full p-1'>
 <div className='w-full flex items-center justify-evenly'>
-    
-    <TheIcon 
-    Icon={liked ? AiFillHeart :AiOutlineHeart} 
-    size='1.5rem'
-    color={liked?"red":""}
-    iconAction={()=>{
-        if (reaction?.like){
-         updateReactionMutation.mutate(reaction_vars)
-            setLiked(prev=>!prev)
-        }
-        else{
-         newReactionMutation.mutate(reaction_vars)
-            setLiked(prev => !prev)
-        }
-    }}
-     />
+            <div className='w-full flex '>
+                <TheIcon
+                    Icon={liked ? AiFillHeart : AiOutlineHeart}
+                    size='1.5rem'
+                    color={liked ? "red" : ""}
+                    iconAction={() => {
+                        if (reaction?.like) {
+                            updateReactionMutation.mutate(reaction_vars)
+                            setLiked(prev => !prev)
+                        }
+                        else {
+                            newReactionMutation.mutate(reaction_vars)
+                            setLiked(prev => !prev)
+                        }
+                    }}
+                />
+                {
+                    total_likes??0
+
+                }
+            </div>
+
     <TheIcon Icon={VscComment} size='1.5rem' />
 </div>
  </div>

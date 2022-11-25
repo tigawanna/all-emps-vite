@@ -1,9 +1,7 @@
 import React from 'react'
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchPosts } from '../../pb/useCollection';
+
 import { Record, Admin } from 'pocketbase';
-import { ListResult } from 'pocketbase';
 import { usePaginatedCollection } from './../../pb/useCollection';
 import { useInView } from 'react-intersection-observer'
 import { PostsCard } from '../../components/posts/PostCard';
