@@ -7,7 +7,9 @@ import { useInView } from 'react-intersection-observer'
 import { PostsCard } from '../../components/posts/PostCard';
 import { PostType } from './../../components/posts/types';
 import { QueryStateWrapper } from '../../shared/QueryStateWrapper';
-
+import { TheIcon } from '../../shared/TheIcon';
+import {FaPlus} from 'react-icons/fa'
+import { Link } from 'react-router-dom';
 interface PostsProps {
   user: Record | Admin | null | undefined
 }
@@ -63,7 +65,12 @@ return (
 </div>
 
 
+<div className='w-fit h-fit p-2 bg-slate-500 text-white rounded-full fixed bottom-[10%] right-[5%]'>
+  <Link to={'/post/new'}>
+          <TheIcon Icon={FaPlus} size={'40'} />
+  </Link>
 
+</div>
     <div>
        <button
         ref={ref}

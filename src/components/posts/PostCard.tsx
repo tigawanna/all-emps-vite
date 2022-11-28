@@ -45,11 +45,19 @@ return (
                 post id :  {item.id}
             </div>
             <div className='w-full  flex'>
-             <PostReactionsCard user={user} item={item}/>
+             {/* <PostReactionsCard user={user} item={item}/> */}
             </div>
         </div>
     );
 }
+
+
+
+
+
+
+
+
 
 const makeUrl = (record: RecordItem|PostType) => {
 
@@ -59,6 +67,24 @@ const makeUrl = (record: RecordItem|PostType) => {
     return
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 interface PostReactionsCardProps {
 

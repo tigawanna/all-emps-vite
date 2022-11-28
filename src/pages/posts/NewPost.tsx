@@ -5,6 +5,8 @@ import TheForm from './../../shared/form/TheForm';
 import { client } from './../../pb/config';
 import { Admin } from 'pocketbase';
 import { Record } from 'pocketbase';
+import { concatErrors } from '../../components/auth/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface NewPostProps {
 user:Record|Admin|null|undefined
@@ -15,6 +17,7 @@ export const NewPost: React.FC<NewPostProps> = ({user}) => {
   const [authing, setAuthing] = React.useState(true)
   const [error, setError] = React.useState({ name: "", message: "" })
   const queryClient = useQueryClient();
+  const navigate = useNavigate()
 
   const form_input: FormOptions[] = [
     { field_name: "body", field_type: "textarea", default_value: "", editing },
@@ -27,17 +30,22 @@ export const NewPost: React.FC<NewPostProps> = ({user}) => {
       console.log("successfull auth === ", record)
     }
     catch (err: any) {
-      console.log("error in login mutation catch block", err.message)
+      console.log("error in login mutation catch block", concatErrors(err))
       // setError({ name: "main", message: err?.messge })
       throw err
     }
   },
     {
-      // onSettled: () => {
-      //     queryClient.invalidateQueries(["user"]);
-      // },
+      onSettled: () => {
+          // queryClient.invalidateQueries(["user"]);
+        // navigate(-1)
+      },
+      onSuccess:()=>{
+        navigate(-1)
+      },
       onError: (err: any) => {
-        setError({ name: "main", message: err?.message })
+     
+        setError({ name: "main", message: concatErrors(err) })
       }
     }
 
@@ -45,12 +53,14 @@ export const NewPost: React.FC<NewPostProps> = ({user}) => {
 
 
   const handleSubmit = async (data: FormData) => {
-    addUserMutation.mutate({ coll_name: 'user', payload: data })
+   await  addUserMutation.mutate({ coll_name: 'posts', payload: data })
+  
   };
 
 
 return (
-  
+  <div className='w-full h-full flex items-center justify-center'>
+    <div className='w-full md:w-[70%] h-full md:h-[70%] '>
   <TheForm
     form_title='Add Post'
     fields={form_input}
@@ -61,6 +71,8 @@ return (
     editing={editing}
     button_title={"create post"}
   />
+  </div>
+  </div>
 );
 }
 

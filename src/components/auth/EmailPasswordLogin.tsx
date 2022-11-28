@@ -3,6 +3,7 @@ import TheForm from '../../shared/form/TheForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormOptions } from '../../shared/form/types';
 import { client } from './../../pb/config';
+import { concatErrors } from './utils';
 
 
 
@@ -33,7 +34,7 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
             setAuthing(false)
         }
         catch(err:any){
-            console.log("error in login mutation catch block", err.message)
+            // console.log("error in login mutation catch block", err.message)
             // setError({ name: "main", message: err?.messge })
             throw err
        }
@@ -59,7 +60,8 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
             queryClient.invalidateQueries(["user"]);
         },
         onError: (err:any) => {
-          setError({ name: "main", message:err?.message})
+            // console.log("errror logging in ",err.data)
+            setError({ name: "main", message: concatErrors(err) })
         }
     }
     )

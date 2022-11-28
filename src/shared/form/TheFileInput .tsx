@@ -61,7 +61,7 @@ export const TheFileInput: React.FC<TheFileInputProps> = ({
         className='rounded-lg  flex-center hover:scale-105'>
         {
           /* @ts-expect-error */
-          !input[item.field_name] ? <TheIcon Icon={AiOutlineCamera} color="black" size='50' /> :
+          !input[item.field_name] ? <TheIcon Icon={AiOutlineCamera} size='50' /> :
             // <img src={pic.file_url as string} className="h-full w-full rounded-full" />
             <div className='w-full h-full'>
               {img_url_or_file.type?
