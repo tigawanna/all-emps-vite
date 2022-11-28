@@ -27,10 +27,10 @@ export const NewPost: React.FC<NewPostProps> = ({user}) => {
   const addUserMutation = useMutation(async (vars: { coll_name: string, payload: FormData }) => {
     try {
       const record = await client.collection('posts').create(vars.payload);
-      console.log("successfull auth === ", record)
+      // console.log("successfull auth === ", record)
     }
     catch (err: any) {
-      console.log("error in login mutation catch block", concatErrors(err))
+      // console.log("error in login mutation catch block", concatErrors(err))
       // setError({ name: "main", message: err?.messge })
       throw err
     }
