@@ -35,7 +35,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
   const avatar = makeUrl(user)
 
   return (
-    <div className="w-[100%] dark:text-white  p-1 px-2 flex justify-center items-center h-full">
+    <div className="w-[100%] text-white  p-1 px-2 flex justify-center items-center h-full">
 
 
 
@@ -43,7 +43,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
           <div className="m-1 w-full h-full p-1 flex justify-center items-center ">
        
             <Link to="/" >
-              <div className="w-fit p-1 mx-5 flex justify-center items-center dark:text-white  ">
+              <div className="w-fit p-1 mx-5 flex justify-center items-centertext-white  ">
                 <TheIcon
                   Icon={AiOutlineHome}
                   size={"25"}
@@ -55,7 +55,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
           </div>
    
    
-          <div className="w-fit p-1 mx-5 flex justify-center items-center dark:text-white  ">
+          <div className="w-fit p-1 mx-5 flex justify-center items-center   ">
             <TheIcon
               Icon={mode}
               size={"25"}
@@ -66,7 +66,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
           </div>
           <div
             className="  rounded-md  flex justify-center items-center
-          dark:text-white w-16  h-full  aspect-square">
+              w-16  h-full  aspect-square">
             {!user ? (
               <Link to="/auth" >
              <TheIcon

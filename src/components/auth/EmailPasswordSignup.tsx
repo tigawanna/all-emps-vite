@@ -3,6 +3,7 @@ import TheForm from '../../shared/form/TheForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormOptions } from '../../shared/form/types';
 import { client } from './../../pb/config';
+import { concatErrors } from './utils';
 
 
 
@@ -47,7 +48,7 @@ export const EmailPasswordSignup: React.FC<EmailPasswordSignupProps> = ({}) => {
         },
         onError:(err:any)=>{
             // console.log("mutation error ==== ", concatErrors(err))
-            setError({ name: "main", message:err.message })
+            setError({ name: "main", message: concatErrors(err) })
         
         }
     }
