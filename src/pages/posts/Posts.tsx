@@ -16,6 +16,19 @@ import dayjs  from 'dayjs';
 interface PostsProps {
   user: Record | Admin | null | undefined
 }
+export interface CustomPostType {
+  creator_id: string
+  creator_name: string
+  creator_image: string
+  post_id: string
+  post_body: string
+  post_media: string
+  created_at: string
+  likes: number
+  mylike: string
+  reaction_id: string
+}
+
 export interface RecordItem extends Record {
   body: string
   media?: string
@@ -131,16 +144,4 @@ return (
 
 
 
-export interface CustomPostType {
-  creator_id: string
-  creator_name: string
-  creator_image: string
-  post_id: string
-  post_body: string
-  post_media: string
-  created_at: string
-  likes: number
-  mylike: string
-  reaction_id:string
-}
 
