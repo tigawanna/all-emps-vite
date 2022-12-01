@@ -7,12 +7,13 @@ import { client } from './../../pb/config';
 import { FormOptions } from '../../shared/form/types';
 import TheForm from './../../shared/form/TheForm';
 import { FaPassport } from 'react-icons/fa';
+import { TheSocialMediaForm } from '../../shared/form/TheSocialMediaForm';
 
 interface TestProps {
     user: Record | Admin | null | undefined
 }
 
-export const Test: React.FC<TestProps> = ({}) => {
+export const Test: React.FC<TestProps> = ({user}) => {
     const editing = true
     const [authing, setAuthing] = React.useState(true)
     const [error, setError] = React.useState({ name: "", message: "" })
@@ -53,8 +54,12 @@ export const Test: React.FC<TestProps> = ({}) => {
     };
 
 return (
- <div>
-
+ <div className='h-full w-full'>
+ <TheSocialMediaForm
+    post='v6ynbnc6dz1o2lb'
+    user={user}
+    
+ />
  </div>
 );
 }

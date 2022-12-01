@@ -36,7 +36,7 @@ return (
       {item.required && item.editing ?<div className='text-red-300 mr-1'>*</div>:null}
       {item.field_name}
     </label>
-  {item.editing?
+     {item.editing?
       <input
       style={{ borderColor: isError() ? "red" : "" }}
       className="w-[90%] p-2 m-1 border border-black 

@@ -115,7 +115,7 @@ return (
         return page.map((item) => {
           return <PostsCard item={item} key={item.post_id} user={user}/>
         })
-        return <div>hey</div>
+    
       })
       }
 </div>

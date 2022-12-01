@@ -19,15 +19,15 @@ interface PostCardProps {
 
 
 export const PostsCard: React.FC<PostCardProps> = ({ item,user }) => {
-    console.log("url === ", makeUrl('posts', item.post_id, item.post_media))
+    // console.log("url === ", makeUrl('posts', item.post_id, item.post_media))
 
 return (
         <div className='w-[90%] md:w-[50%]  p-2 flex flex-col  border-black border-2 
           dark:border-[1px]  dark:border-white rounded-lg gap-3'>
             <div className='w-full flex justify-start itemscenter gap-[1px]'>
             <div className='flex items-center justify-center '>
-                {item.creator_image ? <img src={makeUrl('emps',item.creator_id,item.creator_image)}
-                    className=' w-fit max-h-10 rounded-full aspect-square' /> : null}
+             {item.creator_image ? <img src={makeUrl('emps',item.creator_id,item.creator_image)}
+               className=' w-fit max-h-10 rounded-full aspect-square' /> : null}
             </div>
                 <div className='flex items-center text-blue-700 justifycenter text-md font-bold px-2'>
                 {item.creator_name}
@@ -89,8 +89,8 @@ liked:"yes"|"no";
 
 export const PostReactionsCard: React.FC<PostReactionsCardProps> = ({user,item}) => {
 // console.log("post ids === ",user?.id,item.id)
-console.log("user ====",user?.id)
-console.log("item ===== ",item)
+// console.log("user ====",user?.id)
+// console.log("item ===== ",item)
 const queryClient = useQueryClient()
 const [liked, setLiked] = React.useState(item.reacted === "yes")
 
@@ -99,11 +99,11 @@ const [liked, setLiked] = React.useState(item.reacted === "yes")
       const updatevars={
         liked: item.reacted === "yes"?"no":"yes"
         }
-        console.log("update mutation vars=== ",updatevars,vars.my_reaction_id)
+        // console.log("update mutation vars=== ",updatevars,vars.my_reaction_id)
       try {
         const response  = await client.collection('reactions')
         .update(vars?.my_reaction_id as string,updatevars)
-         console.log("update reaction response === ",response)
+        //  console.log("update reaction response === ",response)
        }
        catch (err: any) {
           console.log("error updating ===> ", concatErrors(err))
@@ -128,7 +128,7 @@ const [liked, setLiked] = React.useState(item.reacted === "yes")
             emp:user?.id,
             liked: "yes"
         } 
-        console.log("create vars =====> ", newReaction)
+        // console.log("create vars =====> ", newReaction)
         try { 
       const response =  await client.collection('reactions').create(newReaction)
             console.log("new reaction response === ", response)
