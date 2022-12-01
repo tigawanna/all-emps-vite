@@ -2,10 +2,13 @@ import React from 'react'
 import { CustomPostType, RecordItem } from './../../pages/posts/Posts';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { VscComment } from 'react-icons/vsc'
+import { FcComments } from 'react-icons/fc'
 import { TheIcon } from '../../shared/TheIcon';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { client } from './../../pb/config';
 import { Record, Admin } from 'pocketbase';
+import { pb_url } from './../../utils/env';
+import { concatErrors } from './../auth/utils';
 
 
 
@@ -16,12 +19,11 @@ interface PostCardProps {
 
 
 export const PostsCard: React.FC<PostCardProps> = ({ item,user }) => {
-    // console.log("url === ", makeUrl(item))
+    console.log("url === ", makeUrl('posts', item.post_id, item.post_media))
 
 return (
         <div className='w-[90%] md:w-[50%]  p-2 flex flex-col  border-black border-2 
-        dark:border-[1px]  dark:border-white
-        rounded-lg gap-3'>
+          dark:border-[1px]  dark:border-white rounded-lg gap-3'>
             <div className='w-full flex justify-start itemscenter gap-[1px]'>
             <div className='flex items-center justify-center '>
                 {item.creator_image ? <img src={makeUrl('emps',item.creator_id,item.creator_image)}
@@ -39,15 +41,15 @@ return (
                 {item.post_body}
             </div>
         <div className='w-full  flex items-center justify-center '>
-            {item.creator_image ? <img src={makeUrl('posts',item.post_id,item.post_media)}
+            {item.post_media ? <img src={makeUrl('posts',item.post_id,item.post_media)}
                 className=' w-fit max-h-80 rounded-lg' /> : null}
            </div>
-            <div className='w-full  flex font-serif text-sm font-normal'>
+            {/* <div className='w-full  flex font-serif text-sm font-normal'>
                emp id:  {item.creator_id}
             </div>
             <div className='w-full  flex font-serif text-sm font-normal'>
                 post id :  {item.post_id}
-            </div>
+            </div> */}
             <div className='w-full  flex'>
              <PostReactionsCard user={user} item={item}/>
             </div>
@@ -57,22 +59,12 @@ return (
 
 
 
-
-
-
-
-
-
 const makeUrl = (coll_name:string,coll_id:string,media:string) => {
-
-    if (media) {
-        return `https://emps.tigawanna.tech/api/files/${coll_name}/${coll_id}/${media}`
+   if (media) {
+        return `${pb_url}/api/files/${coll_name}/${coll_id}/${media}`
     }
     return
-
 }
-
-
 interface PostReactionsCardProps {
 user: Record | Admin | null | undefined
 item: CustomPostType
@@ -97,21 +89,24 @@ liked:"yes"|"no";
 
 export const PostReactionsCard: React.FC<PostReactionsCardProps> = ({user,item}) => {
 // console.log("post ids === ",user?.id,item.id)
-// console.log("item ===== ",item)
+console.log("user ====",user?.id)
+console.log("item ===== ",item)
 const queryClient = useQueryClient()
-const [liked, setLiked] = React.useState(item.mylike === "yes")
+const [liked, setLiked] = React.useState(item.reacted === "yes")
 
     const updateReactionMutation = useMutation(async (vars: CustomPostType) => {
     
       const updatevars={
-        liked: item.mylike === "yes"?"no":"yes"
+        liked: item.reacted === "yes"?"no":"yes"
         }
+        console.log("update mutation vars=== ",updatevars,vars.my_reaction_id)
       try {
-        await client.collection('reactions').update(vars?.reaction_id as string,updatevars)
-    // console.log("update reaction response === ",response)
+        const response  = await client.collection('reactions')
+        .update(vars?.my_reaction_id as string,updatevars)
+         console.log("update reaction response === ",response)
        }
        catch (err: any) {
-            console.log("error in login mutation catch block", err.message)
+          console.log("error updating ===> ", concatErrors(err))
             // setError({ name: "main", message: err?.messge })
             throw err
           } 
@@ -122,23 +117,24 @@ const [liked, setLiked] = React.useState(item.mylike === "yes")
                 // queryClient.invalidateQueries(count_query_key);
             },
             onError: (err: any) => {
-           console.log("error updating ===> ",err)
+                console.log("error updating ===> ",concatErrors(err))
             }
         }
     )
     const newReactionMutation = useMutation(async (vars: CustomPostType) => {
-        // console.log("create vars =====> ",vars)
+   
         const newReaction={
             post:vars.post_id,
-            emp:vars.creator_id,
+            emp:user?.id,
             liked: "yes"
         } 
+        console.log("create vars =====> ", newReaction)
         try { 
-        await client.collection('reactions').create(newReaction)
-            // console.log("new reaction response === ", response)
+      const response =  await client.collection('reactions').create(newReaction)
+            console.log("new reaction response === ", response)
          }
         catch (err: any) {
-            console.log("error in login mutation catch block", err.message)
+            console.log("error liking post",concatErrors(err))
             // setError({ name: "main", message: err?.messge })
             throw err
         }
@@ -149,7 +145,10 @@ const [liked, setLiked] = React.useState(item.mylike === "yes")
         //     queryClient.invalidateQueries(count_query_key);
     },
     onError: (err: any) => {
-        console.log("error updating ===> ", err)
+
+        console.log("error liking post",concatErrors(err))
+        updateReactionMutation.mutate(item)
+    
     }
     }
     )
@@ -165,7 +164,7 @@ return (
                     size='1.5rem'
                     color={liked ? "red" : ""}
                     iconAction={() => {
-                        if (item.reaction_id) {
+                        if (item.reacted !=="virgin" && item.my_reaction_id &&item.my_reaction_id !=="") {
                             updateReactionMutation.mutate(item)
                             setLiked(prev => !prev)
                         }
@@ -175,10 +174,15 @@ return (
                         }
                     }}
                 />
-                { item.likes??0}
+                { item.like_count??0}
+            </div>
+            <div className='flex '>
+                <TheIcon Icon={item.my_reply_id !== "virgin" ? FcComments :VscComment} 
+                size='1.5rem' 
+                color={item.my_reply_id !== "virgin"?"purple":""} />
+                {item.reply_count??0}
             </div>
 
-    <TheIcon Icon={VscComment} size='1.5rem' />
 </div>
  </div>
 );

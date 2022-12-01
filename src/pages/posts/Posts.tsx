@@ -24,9 +24,11 @@ export interface CustomPostType {
   post_body: string
   post_media: string
   created_at: string
-  likes: number
-  mylike: string
-  reaction_id: string
+  my_reaction_id: string
+  like_count: number
+  my_reply_id: string
+  reply_count: number
+  reacted:"yes"|"no"|"virgin"
 }
 
 export interface RecordItem extends Record {
@@ -106,8 +108,8 @@ return (
   isLoading={customPostsQuery.isLoading}
   data={data?.pages}
   >
- <div className='w-full min-h-full flex flex-col gap-2 items-center justify-center'>
-<div className='w-[95%] h-full flex flex-col items-center justify-center gap-2'>
+ <div className='w-full min-h-full flex flex-col gap-2 items-center justify-center '>
+<div className='w-[95%] h-full flex flex-col items-center justify-center gap-2 py-2'>
       {data?.pages.map((page) => {
         // console.log("page=== ",page)
         return page.map((item) => {

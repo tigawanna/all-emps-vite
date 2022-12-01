@@ -13,6 +13,7 @@ import { client, getUser } from './../../../pb/config';
 import { Admin } from 'pocketbase';
 import { Record } from 'pocketbase';
 import { ProfileMenu } from "../../../shared/ProfileMenu";
+import { pb_url } from "../../../utils/env";
 
 
 
@@ -106,7 +107,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({}) => {
 const makeUrl = (record: Record | Admin | null |undefined) => {
 
   if (record?.avatar) {
-    return `https://emps.tigawanna.tech/api/files/emps/${record.id}/${record?.avatar}`
+    return `${pb_url}/api/files/emps/${record.id}/${record?.avatar}`
   }
   return "https://picsum.photos/id/1/500/500"
 

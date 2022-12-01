@@ -16,7 +16,7 @@ export const EmailPasswordLogin: React.FC<EmailPasswordLoginProps> = ({}) => {
     const editing=true
 
     const [authing,setAuthing]=React.useState(true)
-    const [error, setError] = React.useState({ name: "main", message: "" })
+    const [error, setError] = React.useState({ name: "", message: "" })
     const queryClient = useQueryClient();
 
     const form_input: FormOptions[] = [

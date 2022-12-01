@@ -78,7 +78,8 @@ return (
 
 export interface FormInput {
  body:string,
- emp:string
+ emp:string,
+ media:string
 }
 interface Validate {
   input: FormInput;
@@ -88,8 +89,12 @@ interface Validate {
 const validate = ({ input, setError }: Validate) => {
   // console.log("input === ",input)
   // const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  if (input.body === "") {
-    setError({ name: "body", message: "post can't be blank" })
+  if (input.body === "" && input.media==="") {
+    setError({ name: "body", message: "can,t be blank" })
+    return false
+  }
+  if (input.body === "" && input.media === "") {
+    setError({ name: "media", message: "can,t be blank" })
     return false
   }
 
